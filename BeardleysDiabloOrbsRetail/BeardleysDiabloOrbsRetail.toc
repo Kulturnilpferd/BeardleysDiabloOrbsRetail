@@ -1,0 +1,8 @@
+## Interface: 110007
+## Title: Beardley's Diablo Orbs (Retail)
+## Notes: Updated for WoW Retail (11.x)
+## Author: Kulturnilpferd
+## Version: 2025.10.07
+
+BeardleysDiabloOrbsRetail.lua
+BeardleysDiabloOrbsRetail.xml
