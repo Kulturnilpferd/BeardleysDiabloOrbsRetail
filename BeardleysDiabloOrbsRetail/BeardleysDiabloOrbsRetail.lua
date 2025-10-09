@@ -306,8 +306,8 @@ end
 ------------------------------------------------
 -- Update Functions
 ------------------------------------------------
-local healthOrbSpeed = 0.5  -- Geschwindigkeit der Animation (je kleiner, desto langsamer)
-local absorptionOrbSpeed = 0.5  -- Geschwindigkeit der Absorptions-Animation
+local healthOrbSpeed = 1  -- Geschwindigkeit der Animation (je kleiner, desto langsamer)
+local absorptionOrbSpeed = 1  -- Geschwindigkeit der Absorptions-Animation
 
 local currentHealth = UnitHealth("player") or 0
 local currentAbsorption = 0
@@ -359,7 +359,7 @@ function updateHealthOrb()
     BDOMod_HealthPercentage:SetText(string.format("%d%%", percentHealth * 100))
 end
 
-local manaOrbSpeed = 0.5  -- Geschwindigkeit der Animation (je kleiner, desto langsamer)
+local manaOrbSpeed = 1  -- Geschwindigkeit der Animation (je kleiner, desto langsamer)
 local currentMana = UnitPower("player") or 0
 local lastPowerType = -1  -- Eine Variable, um den letzten PowerType zu speichern
 
