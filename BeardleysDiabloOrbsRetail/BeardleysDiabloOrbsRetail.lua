@@ -155,24 +155,26 @@ function setupOrbs()
         BDOMod_HealthFill:SetSize(orbSize, orbSize)
         BDOMod_HealthFill:SetClipsChildren(true)
         BDOMod_HealthFill:SetFrameLevel(2)
+        -- Rotation der Texture BDOMod_RedOrb anwenden
+        BDOMod_HealthFill:SetScript("OnUpdate", function(self, elapsed)
+            local rotation = BDOMod_RedOrb:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
+            BDOMod_RedOrb:SetRotation(rotation)
+        end)
     end
 
     ----------------------------------------
     -- Health Orb parenten und Mask setzen
     ----------------------------------------
-    BDOMod_RedOrb:ClearAllPoints()
-    BDOMod_RedOrb:SetParent(BDOMod_HealthFill)
-    BDOMod_RedOrb:SetPoint("BOTTOM")
-    BDOMod_RedOrb:SetSize(orbSize, orbSize)
-    BDOMod_RedOrb:SetVertexColor(0, 1, 0)
-    BDOMod_RedOrb:SetAlpha(1)
-    BDOMod_RedOrb:SetTexture(images.."orb_filling1.png")
+    if BDOMod_RedOrb then
+        BDOMod_RedOrb:ClearAllPoints()
+        BDOMod_RedOrb:SetParent(BDOMod_HealthFill)
+        BDOMod_RedOrb:SetPoint("BOTTOM")
+        BDOMod_RedOrb:SetSize(orbSize, orbSize)
+        BDOMod_RedOrb:SetVertexColor(0, 1, 0)
+        BDOMod_RedOrb:SetAlpha(1)
+        BDOMod_RedOrb:SetTexture(images.."orb_filling1.png")
+    end
 
-    -- Rotation der Texture BDOMod_RedOrb anwenden
-    BDOMod_HealthFill:SetScript("OnUpdate", function(self, elapsed)
-        local rotation = BDOMod_RedOrb:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
-        BDOMod_RedOrb:SetRotation(rotation)
-    end)
 
     ----------------------------------------
     -- Shield Fill-Frame
@@ -183,24 +185,27 @@ function setupOrbs()
         BDOMod_ShieldFill:SetSize(orbSize, orbSize)
         BDOMod_ShieldFill:SetClipsChildren(true)
         BDOMod_ShieldFill:SetFrameLevel(1)  -- Falls das Frame eine andere Ebene braucht
+        -- Rotation der Shield Orb Texture anwenden
+        BDOMod_ShieldFill:SetScript("OnUpdate", function(self, elapsed)
+            local rotation = BDOMod_RedOrbShield:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
+            BDOMod_RedOrbShield:SetRotation(rotation)
+        end)
     end
 
     ----------------------------------------
     -- Shield Orb parenten und Mask setzen
     ----------------------------------------
-    BDOMod_RedOrbShield:ClearAllPoints()
-    BDOMod_RedOrbShield:SetParent(BDOMod_ShieldFill)
-    BDOMod_RedOrbShield:SetPoint("BOTTOM")
-    BDOMod_RedOrbShield:SetSize(orbSize, orbSize)
-    BDOMod_RedOrbShield:SetVertexColor(1, 1, 1)
-    BDOMod_RedOrbShield:SetAlpha(1)
-    BDOMod_RedOrbShield:SetTexture(images.."orb_filling1.png")
+    if BDOMod_RedOrbShield then
+        BDOMod_RedOrbShield:ClearAllPoints()
+        BDOMod_RedOrbShield:SetParent(BDOMod_ShieldFill)
+        BDOMod_RedOrbShield:SetPoint("BOTTOM")
+        BDOMod_RedOrbShield:SetSize(orbSize, orbSize)
+        BDOMod_RedOrbShield:SetVertexColor(1, 1, 1)
+        BDOMod_RedOrbShield:SetAlpha(1)
+        BDOMod_RedOrbShield:SetTexture(images.."blank_orb.png")
+    end
 
-    -- Rotation der Shield Orb Texture anwenden
-    BDOMod_ShieldFill:SetScript("OnUpdate", function(self, elapsed)
-        local rotation = BDOMod_RedOrbShield:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
-        BDOMod_RedOrbShield:SetRotation(rotation)
-    end)
+
 
     ----------------------------------------
     -- Mana Fill-Frame
@@ -210,31 +215,27 @@ function setupOrbs()
         BDOMod_ManaFill:SetPoint("BOTTOM")
         BDOMod_ManaFill:SetSize(orbSize, orbSize)
         BDOMod_ManaFill:SetClipsChildren(true)
+        BDOMod_ManaFill:SetFrameLevel(1)
+        -- Rotation der Mana Orb Texture anwenden
+        BDOMod_ManaFill:SetScript("OnUpdate", function(self, elapsed)
+            local rotation = BDOMod_BlueOrb:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
+            BDOMod_BlueOrb:SetRotation(rotation)
+        end)
     end
 
     ----------------------------------------
     -- Mana Orb parenten und Mask setzen
     ----------------------------------------
-    BDOMod_BlueOrb:ClearAllPoints()
-    BDOMod_BlueOrb:SetParent(BDOMod_ManaFill)
-    BDOMod_BlueOrb:SetPoint("BOTTOM")
-    BDOMod_BlueOrb:SetSize(orbSize, orbSize)
-    BDOMod_BlueOrb:SetVertexColor(0, 0, 1)
-    BDOMod_BlueOrb:SetAlpha(1)
-    BDOMod_BlueOrb:SetTexture(images.."orb_filling1.png")
+    if BDOMod_BlueOrb then
+        BDOMod_BlueOrb:ClearAllPoints()
+        BDOMod_BlueOrb:SetParent(BDOMod_ManaFill)
+        BDOMod_BlueOrb:SetPoint("BOTTOM")
+        BDOMod_BlueOrb:SetSize(orbSize, orbSize)
+        BDOMod_BlueOrb:SetVertexColor(0, 0, 1)
+        BDOMod_BlueOrb:SetAlpha(1)
+        BDOMod_BlueOrb:SetTexture(images.."orb_filling1.png")
+    end
 
-    -- Rotation der Mana Orb Texture anwenden
-    BDOMod_ManaFill:SetScript("OnUpdate", function(self, elapsed)
-        local rotation = BDOMod_BlueOrb:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
-        BDOMod_BlueOrb:SetRotation(rotation)
-    end)
-
-    ----------------------------------------
-    -- Gloss Overlay
-    ----------------------------------------
-    BDOMod_RedOrbGloss:SetAlpha(1)
-    BDOMod_BlueOrbGloss:SetAlpha(1)
-    
     ----------------------------------------
     -- Health Texte über eigenem Frame (nur einmal erstellen)
     ----------------------------------------
@@ -282,12 +283,11 @@ function setupOrbs()
     -- Artwork
     ----------------------------------------
     sfactor = 1.62
-
-    addArtworkFrame("BDO_Bar3", BDOMod_Bar, images.."bar3.png", "LOW", 0, 0, -14, 512 * sfactor, 150 * sfactor, 0, 1, 0, 1, 1)
-    addArtworkFrame("BDO_LeftArtwork", BDOMod_HealthOrb, images.."leftArtwork.png", "MEDIUM", 3, -190, 64, 350, 350, 0, 1, 0, 1, 1)
-    addArtworkFrame("BDO_RightArtwork", BDOMod_ManaOrb, images.."rightArtwork.png", "MEDIUM", 3, 180, 64, 350, 350, 0, 1, 0, 1, 1)
-    addArtworkFrame("BDO_GlossLeft", BDOMod_HealthOrb, images.."orb_gloss.png", "MEDIUM", 2, 0, 0, 238, 238, 0, 1, 0, 1, 0.75)
-    addArtworkFrame("BDO_GlossRight", BDOMod_ManaOrb, images.."orb_gloss.png", "MEDIUM", 2, 0, 0, 238, 238, 1, 0, 0, 1, 0.75)
+    if not BDO_Bar3 then  addArtworkFrame("BDO_Bar3", BDOMod_Bar, images.."bar3.png", "LOW", 0, 0, -14, 512 * sfactor, 150 * sfactor, 0, 1, 0, 1, 1) end
+    if not BDO_LeftArtwork then addArtworkFrame("BDO_LeftArtwork", BDOMod_HealthOrb, images.."leftArtwork.png", "MEDIUM", 3, -190, 64, 350, 350, 0, 1, 0, 1, 1) end
+    if not BDO_RightArtwork then addArtworkFrame("BDO_RightArtwork", BDOMod_ManaOrb, images.."rightArtwork.png", "MEDIUM", 3, 180, 64, 350, 350, 0, 1, 0, 1, 1) end
+    if not BDO_GlossLeft then addArtworkFrame("BDO_GlossLeft", BDOMod_HealthOrb, images.."orb_gloss.png", "MEDIUM", 2, 0, 0, 238, 238, 0, 1, 0, 1, 1) end
+    if not BDO_GlossRight then addArtworkFrame("BDO_GlossRight", BDOMod_ManaOrb, images.."orb_gloss.png", "MEDIUM", 2, 0, 0, 238, 238, 1, 0, 0, 1, 1) end
     
     
     ----------------------------------------
@@ -394,5 +394,4 @@ function BDOMod_OnEvent(self, event, ...)
         reconfigUI()
         setupOrbs()
     end
-
 end
