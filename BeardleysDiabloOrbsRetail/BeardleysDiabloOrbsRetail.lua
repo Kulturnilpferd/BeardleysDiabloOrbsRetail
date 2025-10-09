@@ -286,8 +286,8 @@ function setupOrbs()
     addArtworkFrame("BDO_Bar3", BDOMod_Bar, images.."bar3.png", "LOW", 0, 0, -14, 512 * sfactor, 150 * sfactor, 0, 1, 0, 1, 1)
     addArtworkFrame("BDO_LeftArtwork", BDOMod_HealthOrb, images.."leftArtwork.png", "MEDIUM", 3, -190, 64, 350, 350, 0, 1, 0, 1, 1)
     addArtworkFrame("BDO_RightArtwork", BDOMod_ManaOrb, images.."rightArtwork.png", "MEDIUM", 3, 180, 64, 350, 350, 0, 1, 0, 1, 1)
-    addArtworkFrame("BDO_GlossLeft", BDOMod_HealthOrb, images.."orb_gloss.png", "MEDIUM", 2, 0, 0, 238, 238, 0, 1, 0, 1, 1)
-    addArtworkFrame("BDO_GlossRight", BDOMod_ManaOrb, images.."orb_gloss.png", "MEDIUM", 2, 0, 0, 238, 238, 1, 0, 0, 1, 1)
+    addArtworkFrame("BDO_GlossLeft", BDOMod_HealthOrb, images.."orb_gloss.png", "MEDIUM", 2, 0, 0, 238, 238, 0, 1, 0, 1, 0.75)
+    addArtworkFrame("BDO_GlossRight", BDOMod_ManaOrb, images.."orb_gloss.png", "MEDIUM", 2, 0, 0, 238, 238, 1, 0, 0, 1, 0.75)
     
     
     ----------------------------------------
@@ -394,4 +394,5 @@ function BDOMod_OnEvent(self, event, ...)
         reconfigUI()
         setupOrbs()
     end
+
 end
