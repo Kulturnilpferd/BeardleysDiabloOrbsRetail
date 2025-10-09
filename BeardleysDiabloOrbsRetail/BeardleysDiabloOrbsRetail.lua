@@ -309,7 +309,7 @@ end
 local healthOrbSpeed = 1  -- Geschwindigkeit der Animation (je kleiner, desto langsamer)
 local absorptionOrbSpeed = 1  -- Geschwindigkeit der Absorptions-Animation
 
-local currentHealth = UnitHealth("player") or 0
+local currentHealth = 0
 local currentAbsorption = 0
 
 function updateHealthOrb()
