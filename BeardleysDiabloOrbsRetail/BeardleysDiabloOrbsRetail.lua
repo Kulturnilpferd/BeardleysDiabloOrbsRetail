@@ -306,6 +306,12 @@ end
 ------------------------------------------------
 -- Update Functions
 ------------------------------------------------
+local healthOrbSpeed = 0.5  -- Geschwindigkeit der Animation (je kleiner, desto langsamer)
+local absorptionOrbSpeed = 0.5  -- Geschwindigkeit der Absorptions-Animation
+
+local currentHealth = UnitHealth("player") or 0
+local currentAbsorption = 0
+
 function updateHealthOrb()
     local health = UnitHealth("player") or 1
     local maxHealth = UnitHealthMax("player")
@@ -317,21 +323,45 @@ function updateHealthOrb()
 
     local orbSize = 230
 
-    -- Update der Höhe der Health-Orb
-    BDOMod_HealthFill:SetHeight(orbSize * percentHealth)
+    -- Zielwerte für die Animation berechnen
+    local targetHealth = orbSize * percentHealth
+    local targetAbsorption = orbSize * (percentHealth + percentAbsorption)
 
-    -- Update der Höhe der Schild-Orb (Absorption) und stelle sicher, dass sie korrekt ausgerichtet ist
+    -- Aktualisierung der Gesundheits-Orb
+    if currentHealth < targetHealth then
+        currentHealth = currentHealth + healthOrbSpeed
+        if currentHealth > targetHealth then currentHealth = targetHealth end
+    elseif currentHealth > targetHealth then
+        currentHealth = currentHealth - healthOrbSpeed
+        if currentHealth < targetHealth then currentHealth = targetHealth end
+    end
+
+    -- Aktualisierung der Absorptions-Orb
+    if currentAbsorption < targetAbsorption then
+        currentAbsorption = currentAbsorption + absorptionOrbSpeed
+        if currentAbsorption > targetAbsorption then currentAbsorption = targetAbsorption end
+    elseif currentAbsorption > targetAbsorption then
+        currentAbsorption = currentAbsorption - absorptionOrbSpeed
+        if currentAbsorption < targetAbsorption then currentAbsorption = targetAbsorption end
+    end
+
+    -- Update der Orbs
+    BDOMod_HealthFill:SetHeight(currentHealth)
     if absorption > 0 then
-        BDOMod_ShieldFill:SetHeight(orbSize * (percentHealth + percentAbsorption))
-        BDOMod_ShieldFill:Show()  -- Schild anzeigen
+        BDOMod_ShieldFill:SetHeight(currentAbsorption)
+        BDOMod_ShieldFill:Show()
     else
-        BDOMod_ShieldFill:Hide()  -- Schild verstecken, wenn keine Absorption vorhanden ist
+        BDOMod_ShieldFill:Hide()
     end
 
     -- Update der Texte
     BDOMod_HealthText:SetText(string.format("%d / %d", health, maxHealth))
     BDOMod_HealthPercentage:SetText(string.format("%d%%", percentHealth * 100))
 end
+
+local manaOrbSpeed = 0.5  -- Geschwindigkeit der Animation (je kleiner, desto langsamer)
+local currentMana = UnitPower("player") or 0
+local lastPowerType = -1  -- Eine Variable, um den letzten PowerType zu speichern
 
 function updateManaOrb()
     local power = UnitPower("player")
@@ -342,36 +372,52 @@ function updateManaOrb()
     -- Bestimmen des Ressourcentypen
     local powerType = UnitPowerType("player")
 
-    -- Standard Orb-Farbe für Mana
-    local r, g, b = 0.2, 0.4, 1.0  -- Blau für Mana
+    -- Wenn sich der PowerType geändert hat, setze den Füllwert sofort auf den aktuellen Prozentsatz
+    if powerType ~= lastPowerType then
+        currentMana = percent * 230  -- Sofortige Anpassung der Mana-Orb-Höhe
 
-    -- Ändere die Orb-Farbe basierend auf dem Ressourcentyp
-    if powerType == 0 then
-        -- Mana (Standard blau)
-        r, g, b = 0.2, 0.4, 1.0
-    elseif powerType == 1 then
-        -- Wut (Rot)
-        r, g, b = 1.0, 0.0, 0.0
-    elseif powerType == 3 then
-        -- Energie (Gelb)
-        r, g, b = 1.0, 1.0, 0.0
-    elseif powerType == 4 then
-        -- Runen (Grün)
-        r, g, b = 0.0, 1.0, 0.0
-    elseif powerType == 5 then
-        -- Fokus (Blau)
-        r, g, b = 0.0, 0.6, 1.0
-    elseif powerType == 6 then
-        -- Runenmacht (Lila)
-        r, g, b = 0.6, 0.0, 1.0
+        -- Bestimme die Orb-Farbe sofort, basierend auf dem PowerType
+        local r, g, b = 0.2, 0.4, 1.0  -- Standardfarbe für Mana (Blau)
+
+        if powerType == 1 then
+            -- Wut (Rot)
+            r, g, b = 1.0, 0.0, 0.0
+        elseif powerType == 3 then
+            -- Energie (Gelb)
+            r, g, b = 1.0, 1.0, 0.0
+        elseif powerType == 4 then
+            -- Runen (Grün)
+            r, g, b = 0.0, 1.0, 0.0
+        elseif powerType == 5 then
+            -- Fokus (Blau)
+            r, g, b = 0.0, 0.6, 1.0
+        elseif powerType == 6 then
+            -- Runenmacht (Lila)
+            r, g, b = 0.6, 0.0, 1.0
+        end
+
+        -- Setze sofort die neue Farbe der Mana-Orb
+        BDOMod_BlueOrb:SetVertexColor(r, g, b)
+
+        -- Aktualisiere den letzten PowerType
+        lastPowerType = powerType
     end
 
-    -- Setze die Farbe der Mana-Orb
-    BDOMod_BlueOrb:SetVertexColor(r, g, b)
-
-    -- Update die Größe der Mana-Orb entsprechend dem Anteil
+    -- Zielwert für die Animation (Mana-Orb)
     local orbSize = 230
-    BDOMod_ManaFill:SetHeight(orbSize * percent)
+    local targetMana = orbSize * percent
+
+    -- Schrittweise Aktualisierung der Mana-Orb
+    if currentMana < targetMana then
+        currentMana = currentMana + manaOrbSpeed
+        if currentMana > targetMana then currentMana = targetMana end
+    elseif currentMana > targetMana then
+        currentMana = currentMana - manaOrbSpeed
+        if currentMana < targetMana then currentMana = targetMana end
+    end
+
+    -- Update der Mana-Orb
+    BDOMod_ManaFill:SetHeight(currentMana)
 
     -- Update Textanzeigen
     BDOMod_ManaText:SetText(string.format("%d / %d", power, maxPower))
