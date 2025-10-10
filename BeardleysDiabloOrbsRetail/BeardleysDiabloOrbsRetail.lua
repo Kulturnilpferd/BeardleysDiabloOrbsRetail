@@ -477,7 +477,7 @@ end
 -- EditMode wurde geöffnet
 EventRegistry:RegisterCallback("EditMode.Enter", function()
     if BDOMod_Bar then
-        BDOMod_Bar:SetAlpha(0.5)
+        BDOMod_Bar:SetAlpha(0.75)
     end
 end)
 
