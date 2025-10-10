@@ -96,10 +96,10 @@ local function reconfigUI()
     moveItem(PetActionBar, "BOTTOM", BDOMod_Bar, "BOTTOM", -143, 210)
 
     -- Micromenu
-    moveItem(MicroMenuContainer, "BOTTOM", BDOMod_Bar, "BOTTOM",-35, 2)
+    moveItem(MicroMenuContainer, "BOTTOM", BDOMod_Bar, "BOTTOM",-50, 2)
 
     -- Bagsbar Bags
-    moveItem(BagsBar, "BOTTOM", BDOMod_Bar, "BOTTOM", 268, -2)
+    moveItem(BagsBar, "BOTTOM", BDOMod_Bar, "BOTTOM", 238, -2)
     BagsBar:SetFrameLevel(5)
 
     -- Stance Buttons Anpassung
@@ -474,6 +474,7 @@ function updateManaOrb()
     BDOMod_ManaText:SetText(string.format("%d / %d", power, maxPower))
     BDOMod_ManaPercentage:SetText(string.format("%d%%", percent * 100))
 end
+
 -- EditMode wurde geöffnet
 EventRegistry:RegisterCallback("EditMode.Enter", function()
     if BDOMod_Bar then
@@ -492,6 +493,7 @@ EventRegistry:RegisterCallback("EditMode.Exit", function()
         end
     end)
 end)
+
 -- OnLoad & Event Handling
 ------------------------------------------------
 function BDOMod_OnLoad(self)
