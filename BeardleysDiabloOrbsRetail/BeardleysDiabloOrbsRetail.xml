@@ -22,7 +22,7 @@
         </Anchors>
     </Frame>
     <!-- Health Orb -->
-    <Frame name="BDOMod_HealthOrb" inherits="BDOMod_OrbFrame">
+    <Frame name="BDOMod_HealthOrb" inherits="BDOMod_OrbFrame" parent="BDOMod_Bar">
         <Anchors>
             <Anchor point="BOTTOM">
                 <Offset>
@@ -73,7 +73,7 @@
         </Layers>
     </Frame>
     <!-- Mana Orb -->
-    <Frame name="BDOMod_ManaOrb" inherits="BDOMod_OrbFrame">
+    <Frame name="BDOMod_ManaOrb" inherits="BDOMod_OrbFrame" parent="BDOMod_Bar">
         <Anchors>
             <Anchor point="BOTTOM">
                 <Offset>
