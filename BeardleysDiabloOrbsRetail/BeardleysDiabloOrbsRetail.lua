@@ -547,7 +547,10 @@ function BDOMod_OnEvent(self, event, ...)
         if BDOMod_Bar then BDOMod_Bar:Hide() end
     else
         C_Timer.After(0.1, function()
-            if BDOMod_Bar then BDOMod_Bar:Show() end
+            if BDOMod_Bar then
+                reconfigUI()
+                BDOMod_Bar:Show() 
+            end
         end)
     end
     end
