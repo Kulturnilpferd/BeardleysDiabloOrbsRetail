@@ -359,7 +359,6 @@ function updateHealthOrb()
     local health = UnitHealth("player") or 1
     local maxHealth = UnitHealthMax("player")
     local absorption = UnitGetTotalAbsorbs("player") or 0  -- Absorption des Spielers abrufen
-
     if maxHealth == 0 then return end
     local percentHealth = health / maxHealth
     local percentAbsorption = absorption / maxHealth  -- Absorption als Prozentsatz der maximalen Gesundheit berechnen
@@ -423,16 +422,23 @@ local function SetOrbColor(powerType)
 end
 
 local lastPowerType = -1
-local currentMana = 0
+local currentMana = 1
 local manaOrbSpeed = 1.5 -- Geschwindigkeit, mit der die Mana-Orb-Anzeige aktualisiert wird
 
 function updateManaOrb()
-    local power = UnitPower("player")
-    local maxPower = UnitPowerMax("player")
+    -- Hole den aktuellen Power-Wert und den maximalen Power-Wert des Spielers
+    local power = UnitPower("player") or 0
+    local maxPower = UnitPowerMax("player") or 1
 
-    -- Wenn der maximale Power-Wert 0 ist, nichts tun
-    if maxPower == 0 then return end
-    
+    -- Wenn der maximale Power-Wert 0 ist, tun wir nichts
+    if maxPower == 0 then 
+        BDOMod_ManaFill:SetHeight(0)
+        BDOMod_ManaFillBackground:SetHeight(0)
+        BDOMod_ManaText:SetText("0 / 0")
+        BDOMod_ManaPercentage:SetText("0%")
+        return 
+    end
+
     -- Berechne den Prozentwert
     local percent = power / maxPower
 
@@ -441,7 +447,7 @@ function updateManaOrb()
 
     -- Wenn sich der Power-Typ geändert hat, setze den Füllwert sofort auf den aktuellen Prozentsatz
     if lastPowerType ~= powerType then
-        SetOrbColor(powerType)
+        SetOrbColor(powerType)  -- Diese Funktion setzt die Farbe des Orbs basierend auf dem Power-Typ
         lastPowerType = powerType
     end
 
@@ -449,20 +455,26 @@ function updateManaOrb()
     local orbSize = 230
     local targetMana = orbSize * percent
 
-    -- Schrittweise Aktualisierung der Mana-Orb
+    -- Dynamische Anpassung der Geschwindigkeit basierend auf der Differenz
+    local diff = math.abs(currentMana - targetMana)
+    local dynamicSpeed = math.min(manaOrbSpeed, diff / 10) -- Passen Sie den Divisor nach Bedarf an
+
+    -- Schrittweise Aktualisierung der Mana-Orb (smooth animation)
     if currentMana < targetMana then
-        currentMana = currentMana + manaOrbSpeed
+        currentMana = currentMana + dynamicSpeed
         if currentMana > targetMana then currentMana = targetMana end
     elseif currentMana > targetMana then
-        currentMana = currentMana - manaOrbSpeed
+        currentMana = currentMana - dynamicSpeed
         if currentMana < targetMana then currentMana = targetMana end
     end
 
-    -- Update der Mana-Orb
-    BDOMod_ManaFill:SetHeight(currentMana)
-    BDOMod_ManaFillBackground:SetHeight(currentMana)
+    -- Update der Mana-Orb, nur wenn sich der Wert geändert hat
+    if currentMana ~= targetMana then
+        BDOMod_ManaFill:SetHeight(currentMana)
+        BDOMod_ManaFillBackground:SetHeight(currentMana)
+    end
 
-    -- Update Textanzeigen
+    -- Update der Textanzeigen
     BDOMod_ManaText:SetText(string.format("%d / %d", power, maxPower))
     BDOMod_ManaPercentage:SetText(string.format("%d%%", percent * 100))
 end
