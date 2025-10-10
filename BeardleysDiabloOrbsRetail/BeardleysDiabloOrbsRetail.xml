@@ -33,7 +33,7 @@
         <Layers>
             <!-- Health Background Layer -->
             <Layer level="BACKGROUND">
-                <Texture name="BDOMod_RedOrbBackground" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/blank_orb.png">
+                <Texture name="BDOMod_RedOrbBackground" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/orb_fill.png">
                     <Size>
                         <AbsDimension x="230" y="230"/>
                     </Size>
@@ -45,7 +45,7 @@
                         </Anchor>
                     </Anchors>
                 </Texture>
-                <Texture name="BDOMod_RedOrb" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/orb_filling1.png">
+                <Texture name="BDOMod_RedOrb" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/orb_mist.png">
                     <Size>
                         <AbsDimension x="230" y="230"/>
                     </Size>
@@ -57,7 +57,7 @@
                         </Anchor>
                     </Anchors>
                 </Texture>
-                <Texture name="BDOMod_RedOrbShield" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/blank_orb.png">
+                <Texture name="BDOMod_RedOrbShield" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/orb_fill.png">
                     <Size>
                         <AbsDimension x="230" y="230"/>
                     </Size>
@@ -84,7 +84,7 @@
         <Layers>
             <!-- Mana Background Layer -->
             <Layer level="BACKGROUND">
-                <Texture name="BDOMod_BlueOrbBackground" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/blank_orb.png">
+                <Texture name="BDOMod_BlueOrbBackground" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/orb_fill.png">
                     <Size>
                         <AbsDimension x="230" y="230"/>
                     </Size>
@@ -96,7 +96,7 @@
                         </Anchor>
                     </Anchors>
                 </Texture>
-                <Texture name="BDOMod_BlueOrb" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/orb_filling1.png">
+                <Texture name="BDOMod_BlueOrb" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/orb_mist.png">
                     <Size>
                         <AbsDimension x="230" y="230"/>
                     </Size>
