@@ -541,17 +541,17 @@ function BDOMod_OnEvent(self, event, ...)
         BDOMod_Bar:Hide()
 
     elseif event == "UPDATE_OVERRIDE_ACTIONBAR" then
-    -- Prüfen, ob die Override-Actionbar aktiv ist
-    local isOverride = HasOverrideActionBar()
-    if isOverride then
-        if BDOMod_Bar then BDOMod_Bar:Hide() end
-    else
-        C_Timer.After(0.1, function()
-            if BDOMod_Bar then
-                reconfigUI()
-                BDOMod_Bar:Show() 
-            end
-        end)
-    end
+        -- Prüfen, ob die Override-Actionbar aktiv ist
+        local isOverride = HasOverrideActionBar()
+        if isOverride then
+            if BDOMod_Bar then BDOMod_Bar:Hide() end
+        else
+            C_Timer.After(0.1, function()
+                if BDOMod_Bar then
+                    reconfigUI()
+                    BDOMod_Bar:Show() 
+                end
+            end)
+        end
     end
 end
