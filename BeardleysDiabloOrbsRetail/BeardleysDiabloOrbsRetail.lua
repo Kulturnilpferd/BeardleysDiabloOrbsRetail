@@ -188,7 +188,7 @@ function setupOrbs()
         BDOMod_HealthFill:SetFrameLevel(3)
         -- Rotation der Texture BDOMod_RedOrb anwenden
         BDOMod_HealthFill:SetScript("OnUpdate", function(self, elapsed)
-            local rotation = BDOMod_RedOrb:GetRotation() + (elapsed * 0.05)  -- Geschwindigkeit der Rotation anpassen
+            local rotation = BDOMod_RedOrb:GetRotation() - (elapsed * 0.05)  -- Geschwindigkeit der Rotation anpassen
             BDOMod_RedOrb:SetRotation(rotation)
         end)
     end
