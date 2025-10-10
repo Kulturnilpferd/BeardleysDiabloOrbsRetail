@@ -88,7 +88,7 @@ local function reconfigUI()
     for i = 1, 12 do
         local button = _G["MultiBarBottomRightButton"..i]
         if button then
-            moveItem(button, "BOTTOM", BDOMod_Bar, "BOTTOM", 26 + (i - 7) * 50, 162)
+            moveItem(button, "BOTTOM", BDOMod_Bar, "BOTTOM", 26 + (i - 7) * 50, 163)
         end
     end
 
