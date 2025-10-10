@@ -96,7 +96,7 @@ local function reconfigUI()
     moveItem(PetActionBar, "BOTTOM", BDOMod_Bar, "BOTTOM", -143, 210)
 
     -- Micromenu
-    moveItem(MicroMenuContainer, "BOTTOM", BDOMod_Bar, "BOTTOM",-18, 2)
+    moveItem(MicroMenuContainer, "BOTTOM", BDOMod_Bar, "BOTTOM",-35, 2)
 
     -- Bagsbar Bags
     moveItem(BagsBar, "BOTTOM", BDOMod_Bar, "BOTTOM", 268, -2)
