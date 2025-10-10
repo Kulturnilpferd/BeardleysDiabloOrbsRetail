@@ -528,15 +528,13 @@ function BDOMod_OnEvent(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         reconfigUI()
         setupOrbs()
-        local powerType = UnitPowerType("player")
-        SetOrbColor(powerType)
+        SetOrbColor(UnitPowerType("player"))
 
     elseif event == "UNIT_AURA" then
         local unit = ...
         if unit == "player" then
             updateManaOrb()
-            local powerType = UnitPowerType("player")
-            SetOrbColor(powerType)
+            SetOrbColor(UnitPowerType("player"))
         end
 
     elseif event == "CINEMATIC_START" or event == "PLAY_MOVIE" then
@@ -551,7 +549,7 @@ function BDOMod_OnEvent(self, event, ...)
             reconfigUI()
             setupOrbs()
             local powerType = UnitPowerType("player")
-            SetOrbColor(powerType)
+            SetOrbColor(UnitPowerType("player"))
             BDOMod_Bar:Show()
         end)
 
@@ -577,8 +575,6 @@ function BDOMod_OnEvent(self, event, ...)
         C_Timer.After(0.1, function()
             reconfigUI()
             setupOrbs()
-            updateHealthOrb()
-            updateManaOrb()
             SetOrbColor(UnitPowerType("player"))
         end)
     end
