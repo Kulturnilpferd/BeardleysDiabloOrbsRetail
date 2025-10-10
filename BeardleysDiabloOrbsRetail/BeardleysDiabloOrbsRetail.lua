@@ -99,7 +99,7 @@ local function reconfigUI()
     moveItem(MicroMenuContainer, "BOTTOM", BDOMod_Bar, "BOTTOM",-50, 2)
 
     -- Bagsbar Bags
-    moveItem(BagsBar, "BOTTOM", BDOMod_Bar, "BOTTOM", 238, -2)
+    moveItem(BagsBar, "BOTTOM", BDOMod_Bar, "BOTTOM", 236, -2)
     BagsBar:SetFrameLevel(5)
 
     -- Stance Buttons Anpassung
