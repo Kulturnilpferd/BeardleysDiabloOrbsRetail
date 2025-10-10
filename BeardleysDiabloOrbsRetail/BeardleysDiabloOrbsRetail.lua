@@ -490,6 +490,7 @@ function BDOMod_OnLoad(self)
     self:RegisterEvent("UI_SCALE_CHANGED")
     self:RegisterEvent("UNIT_ENTERED_VEHICLE")
     self:RegisterEvent("UNIT_EXITED_VEHICLE")
+    self:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
 
     -- Optional: Combat-Events, falls du UI nicht im Kampf anpassen darfst
     -- self:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -538,5 +539,16 @@ function BDOMod_OnEvent(self, event, ...)
     elseif event == "UNIT_ENTERED_VEHICLE" then
         -- Optional: Orb ausblenden im Fahrzeug
         BDOMod_Bar:Hide()
+
+    elseif event == "UPDATE_OVERRIDE_ACTIONBAR" then
+    -- Prüfen, ob die Override-Actionbar aktiv ist
+    local isOverride = HasOverrideActionBar()
+    if isOverride then
+        if BDOMod_Bar then BDOMod_Bar:Hide() end
+    else
+        C_Timer.After(0.1, function()
+            if BDOMod_Bar then BDOMod_Bar:Show() end
+        end)
+    end
     end
 end
