@@ -1,4 +1,4 @@
-﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
     <Script file="BeardleysDiabloOrbsRetail.lua"/>
     <!-- Generic orb frame for inheritance -->
     <Frame name="BDOMod_OrbFrame" framestrata="MEDIUM" parent="UIParent" virtual="true">
@@ -31,24 +31,9 @@
             </Anchor>
         </Anchors>
         <Layers>
-            <!-- Gloss Layer -->
-            <Layer level="OVERLAY">
-                <Texture name="BDOMod_RedOrbGloss">
-                    <Size>
-                        <AbsDimension x="230" y="230"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="BOTTOM">
-                            <Offset>
-                                <AbsDimension x="0" y="0"/>
-                            </Offset>
-                        </Anchor>
-                    </Anchors>
-                </Texture>
-            </Layer>
             <!-- Health Background Layer -->
             <Layer level="BACKGROUND">
-                <Texture name="BDOMod_RedOrb" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/blank_orb.png">
+                <Texture name="BDOMod_RedOrbBackground" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/blank_orb.png">
                     <Size>
                         <AbsDimension x="230" y="230"/>
                     </Size>
@@ -60,8 +45,18 @@
                         </Anchor>
                     </Anchors>
                 </Texture>
-            </Layer>
-            <Layer level="BACKGROUND">
+                <Texture name="BDOMod_RedOrb" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/orb_filling1.png">
+                    <Size>
+                        <AbsDimension x="230" y="230"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="BOTTOM">
+                            <Offset>
+                                <AbsDimension x="0" y="0"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
                 <Texture name="BDOMod_RedOrbShield" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/blank_orb.png">
                     <Size>
                         <AbsDimension x="230" y="230"/>
@@ -87,9 +82,9 @@
             </Anchor>
         </Anchors>
         <Layers>
-            <!-- Gloss Layer -->
-            <Layer level="OVERLAY">
-                <Texture name="BDOMod_BlueOrbGloss">
+            <!-- Mana Background Layer -->
+            <Layer level="BACKGROUND">
+                <Texture name="BDOMod_BlueOrbBackground" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/blank_orb.png">
                     <Size>
                         <AbsDimension x="230" y="230"/>
                     </Size>
@@ -101,10 +96,7 @@
                         </Anchor>
                     </Anchors>
                 </Texture>
-            </Layer>
-            <!-- Mana Background Layer -->
-            <Layer level="BACKGROUND">
-                <Texture name="BDOMod_BlueOrb" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/blank_orb.png">
+                <Texture name="BDOMod_BlueOrb" file="Interface/AddOns/BeardleysDiabloOrbsRetail/art/orb_filling1.png">
                     <Size>
                         <AbsDimension x="230" y="230"/>
                     </Size>
