@@ -474,7 +474,24 @@ function updateManaOrb()
     BDOMod_ManaText:SetText(string.format("%d / %d", power, maxPower))
     BDOMod_ManaPercentage:SetText(string.format("%d%%", percent * 100))
 end
+-- EditMode wurde geöffnet
+EventRegistry:RegisterCallback("EditMode.Enter", function()
+    if BDOMod_Bar then
+        BDOMod_Bar:SetAlpha(0.5)
+    end
+end)
 
+-- EditMode wurde geschlossen
+EventRegistry:RegisterCallback("EditMode.Exit", function()
+    C_Timer.After(0.1, function()
+        if BDOMod_Bar then
+            BDOMod_Bar:SetAlpha(1)
+            reconfigUI()
+            setupOrbs()
+            SetOrbColor(UnitPowerType("player"))
+        end
+    end)
+end)
 -- OnLoad & Event Handling
 ------------------------------------------------
 function BDOMod_OnLoad(self)
