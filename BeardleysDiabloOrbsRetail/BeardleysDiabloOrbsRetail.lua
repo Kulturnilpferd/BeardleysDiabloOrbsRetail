@@ -64,8 +64,8 @@ local function reconfigUI()
  -- MainMenuBar ausblenden
 
     HideArt(MainMenuBar)
-    moveItem(MainMenuBar, "CENTER", UIParent, "BOTTOM", 0, 38)
-    moveItem(MainMenuBar.ActionBarPageNumber, "BOTTOM", UIParent, "BOTTOM", -310, 52)
+    moveItem(MainMenuBar, "CENTER", BDOMod_Bar, "BOTTOM", 0, 38)
+    moveItem(MainMenuBar.ActionBarPageNumber, "BOTTOM", BDOMod_Bar, "BOTTOM", -306, 54)
 
     -- Buttons aus der MainMenuBar herauslösen und ihre Position direkt auf dem UI setzen
     for i = 1, 12 do
@@ -74,7 +74,7 @@ local function reconfigUI()
             -- Setze den Parent des Buttons auf den UIParent, damit er unabhängig ist
             button.SlotArt:Hide()
             button.IconMask:Hide()
-            moveItem(button, "BOTTOM", UIParent, "BOTTOM", 27 + ((i - 7) * 51), 50)
+            moveItem(button, "BOTTOM", BDOMod_Bar, "BOTTOM", 26 + ((i - 7) * 50), 50)
         end
     end
 
@@ -82,37 +82,37 @@ local function reconfigUI()
     for i = 1, 12 do
         local button = _G["MultiBarBottomLeftButton"..i]
         if button then
-            moveItem(button, "BOTTOM", UIParent, "BOTTOM", 28 + (i - 7) * 51, 100)
+            moveItem(button, "BOTTOM", BDOMod_Bar, "BOTTOM", 26 + (i - 7) * 50, 100)
         end
     end
 
     for i = 1, 12 do
         local button = _G["MultiBarBottomRightButton"..i]
         if button then
-            moveItem(button, "BOTTOM", UIParent, "BOTTOM", 28 + (i - 7) * 51, 162)
+            moveItem(button, "BOTTOM", BDOMod_Bar, "BOTTOM", 26 + (i - 7) * 50, 162)
         end
     end
 
     -- Pet Action Bar
+    moveItem(PetActionBar, "BOTTOM", BDOMod_Bar, "BOTTOM", -143, 210)
 
-    moveItem(PetActionBar, "BOTTOM", UIParent, "BOTTOM", -143, 210)
     -- Micromenu
-    moveItem(MicroMenuContainer, "BOTTOM", UIParent, "BOTTOM",-18, 2)
+    moveItem(MicroMenuContainer, "BOTTOM", BDOMod_Bar, "BOTTOM",-18, 2)
 
     -- Bagsbar Bags
-    moveItem(BagsBar, "BOTTOM", UIParent, "BOTTOM", 268, -2)
+    moveItem(BagsBar, "BOTTOM", BDOMod_Bar, "BOTTOM", 268, -2)
     BagsBar:SetFrameLevel(5)
 
     -- Stance Buttons Anpassung
     for i = 1, 6 do
         local button = _G["StanceButton" .. i]
         if button then
-            moveItem(button, "BOTTOM", UIParent, "BOTTOM", -320 + (i - 1) * 31, 5)
+            moveItem(button, "BOTTOM", BDOMod_Bar, "BOTTOM", -320 + (i - 1) * 31, 5)
         end
     end
 
     -- Erfahrungs Bar
-    moveItem(MainStatusTrackingBarContainer, "BOTTOM", UIParent, "BOTTOM", 4, 142)
+    moveItem(MainStatusTrackingBarContainer, "BOTTOM", BDOMod_Bar, "BOTTOM", 4, 143)
 
     -- Ändere die FrameStrata der Chatframes
     for i = 1, NUM_CHAT_WINDOWS do
@@ -310,7 +310,7 @@ function setupOrbs()
     -- Artwork
     ----------------------------------------
     sfactor = 1.62
-    if not BDO_Bar3 then  addArtworkFrame("BDO_Bar3", BDOMod_Bar, images.."bar3.png", "LOW", 0, 0, -14, (512 * sfactor)+10, 150 * sfactor, 0, 1, 0, 1, 1) end
+    if not BDO_Bar3 then  addArtworkFrame("BDO_Bar3", BDOMod_Bar, images.."bar3.png", "LOW", 0, 0, -14, (512 * sfactor)-10, 150 * sfactor, 0, 1, 0, 1, 1) end
     if not BDO_LeftArtwork then addArtworkFrame("BDO_LeftArtwork", BDOMod_HealthOrb, images.."leftArtwork.png", "MEDIUM", 5, -190, 64, 350, 350, 0, 1, 0, 1, 1) end
     if not BDO_RightArtwork then addArtworkFrame("BDO_RightArtwork", BDOMod_ManaOrb, images.."rightArtwork.png", "MEDIUM", 5, 180, 64, 350, 350, 0, 1, 0, 1, 1) end
     if not BDO_GlossLeft then addArtworkFrame("BDO_GlossLeft", BDOMod_HealthOrb, images.."orb_gloss.png", "MEDIUM", 4, 0, 0, 238, 238, 0, 1, 0, 1, 1) end
