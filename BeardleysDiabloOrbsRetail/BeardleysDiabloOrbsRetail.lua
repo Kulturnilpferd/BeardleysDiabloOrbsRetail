@@ -356,13 +356,26 @@ local currentHealth = 0
 local currentAbsorption = 0
 
 function updateHealthOrb()
-    local health = UnitHealth("player") or 1
-    local maxHealth = UnitHealthMax("player")
+    -- Hole die aktuellen Werte für Gesundheit, maximale Gesundheit und Absorption
+    local health = UnitHealth("player") or 0
+    local maxHealth = UnitHealthMax("player") or 1  -- Um zu verhindern, dass maxHealth 0 wird
     local absorption = UnitGetTotalAbsorbs("player") or 0  -- Absorption des Spielers abrufen
-    if maxHealth == 0 then return end
+
+    -- Wenn maxHealth 0 ist, breche ab und setze die Höhe auf 0
+    if maxHealth == 0 then 
+        BDOMod_HealthFill:SetHeight(0)
+        BDOMod_HealthFillBackground:SetHeight(0)
+        BDOMod_ShieldFill:Hide()  -- Verstecke die Absorption
+        BDOMod_HealthText:SetText("0 / 0")
+        BDOMod_HealthPercentage:SetText("0%")
+        return
+    end
+
+    -- Berechne den Prozentsatz der Gesundheit und der Absorption
     local percentHealth = health / maxHealth
     local percentAbsorption = absorption / maxHealth  -- Absorption als Prozentsatz der maximalen Gesundheit berechnen
 
+    -- Zielgröße der Orbs
     local orbSize = 230
 
     -- Zielwerte für die Animation berechnen
@@ -387,21 +400,22 @@ function updateHealthOrb()
         if currentAbsorption < targetAbsorption then currentAbsorption = targetAbsorption end
     end
 
-    -- Update der Orbs
+    -- Update der Health-Orb
     BDOMod_HealthFill:SetHeight(currentHealth)
     BDOMod_HealthFillBackground:SetHeight(currentHealth)
+
+    -- Update der Absorption-Orb
     if absorption > 0 then
         BDOMod_ShieldFill:SetHeight(currentAbsorption)
         BDOMod_ShieldFill:Show()
     else
-        BDOMod_ShieldFill:Hide()
+        BDOMod_ShieldFill:Hide()  -- Verstecke das Absorptions-Orb, wenn keine Absorption vorhanden ist
     end
 
-    -- Update der Texte
+    -- Update der Textanzeigen
     BDOMod_HealthText:SetText(string.format("%d / %d", health, maxHealth))
     BDOMod_HealthPercentage:SetText(string.format("%d%%", percentHealth * 100))
 end
-
 
 local function SetOrbColor(powerType)
     local powerColors = {
