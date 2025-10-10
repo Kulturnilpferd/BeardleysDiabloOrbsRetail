@@ -51,24 +51,22 @@ end
 --   end)
 --end
 
+local function moveItem(frame, point, relativeTo, relativePoint, offsetX, offsetY)
+    frame:SetMovable(true)
+    frame:SetUserPlaced(true)
+    frame:ClearAllPoints()
+    frame:SetPoint(point, relativeTo, relativePoint, offsetX, offsetY)
+    frame.ignoreFramePositionManager = true
+end
+
 local function reconfigUI()
     -- Actionbars und Pet-Actionbuttons Anpassung
  -- MainMenuBar ausblenden
 
     HideArt(MainMenuBar)
-    MainMenuBar:SetMovable(true)
-    MainMenuBar:SetUserPlaced(true)
-    MainMenuBar:ClearAllPoints()
-    MainMenuBar:SetPoint("CENTER",UIParent,"BOTTOM",0,38)
+    moveItem(MainMenuBar, "CENTER", UIParent, "BOTTOM", 0, 38)
+    moveItem(MainMenuBar.ActionBarPageNumber, "BOTTOM", UIParent, "BOTTOM", -310, 52)
 
-    --MainMenuBar.SetPoint = function() end
-    MainMenuBar.ActionBarPageNumber:ClearAllPoints()
-    MainMenuBar.ActionBarPageNumber:SetPoint("BOTTOM", UIParent, "BOTTOM", -310, 52)
-    MainMenuBar.ActionBarPageNumber.ignoreFramePositionManager = true
-    --MainMenuBar:SetScale(0.67)
-    --MainMenuBar.SetScale = function() end
-    --MainMenuBar:SetPoint("BOTTOM", UIParent, "BOTTOM", 5, 320)
-    --MainMenuBar.SetPoint = function() end   
     -- Buttons aus der MainMenuBar herauslösen und ihre Position direkt auf dem UI setzen
     for i = 1, 12 do
         local button = _G["ActionButton"..i]
@@ -76,9 +74,7 @@ local function reconfigUI()
             -- Setze den Parent des Buttons auf den UIParent, damit er unabhängig ist
             button.SlotArt:Hide()
             button.IconMask:Hide()
-            button:ClearAllPoints()
-            button:SetPoint("BOTTOM", UIParent, "BOTTOM", 28 + ((i - 7) * 51), 48)
-            button.ignoreFramePositionManager = true
+            moveItem(button, "BOTTOM", UIParent, "BOTTOM", 28 + ((i - 7) * 51), 48)
         end
     end
 
@@ -86,57 +82,43 @@ local function reconfigUI()
     for i = 1, 12 do
         local button = _G["MultiBarBottomLeftButton"..i]
         if button then
-            button:ClearAllPoints()
-            button:SetPoint("BOTTOM", UIParent, "BOTTOM", 28 + (i - 7) * 51, 98)
-            button.ignoreFramePositionManager = true
+            moveItem(button, "BOTTOM", UIParent, "BOTTOM", 28 + (i - 7) * 51, 98)
         end
     end
 
     for i = 1, 12 do
         local button = _G["MultiBarBottomRightButton"..i]
         if button then
-            button:ClearAllPoints()
-            button:SetPoint("BOTTOM", UIParent, "BOTTOM", 28 + (i - 7) * 51, 162)
-            button.ignoreFramePositionManager = true
+            moveItem(button, "BOTTOM", UIParent, "BOTTOM", 28 + (i - 7) * 51, 162)
         end
     end
 
     -- Pet Action Bar
-    PetActionBar:ClearAllPoints()
-    PetActionBar:SetPoint("BOTTOM", UIParent, "BOTTOM", -143, 210)
-    PetActionBar.ignoreFramePositionManager = true
 
+    moveItem(PetActionBar, "BOTTOM", UIParent, "BOTTOM", -143, 210)
     -- Micromenu
-    MicroMenuContainer:ClearAllPoints()
-    MicroMenuContainer:SetPoint("BOTTOM", UIParent, "BOTTOM",-18, 2)
-    MicroMenuContainer.ignoreFramePositionManager = true
+    moveItem(MicroMenuContainer, "BOTTOM", UIParent, "BOTTOM",-18, 2)
 
-    -- Bagsbar Bags 
-    BagsBar:ClearAllPoints()
-    BagsBar:SetPoint("BOTTOM", UIParent, "BOTTOM", 268, -2)
+    -- Bagsbar Bags
+    moveItem(BagsBar, "BOTTOM", UIParent, "BOTTOM", 268, -2)
     BagsBar:SetFrameLevel(5)
-    BagsBar.ignoreFramePositionManager = true
 
     -- Stance Buttons Anpassung
     for i = 1, 6 do
-        local stanceButton = _G["StanceButton" .. i]
-        if stanceButton then
-            stanceButton:ClearAllPoints()
-            stanceButton:SetPoint("BOTTOM", UIParent, "BOTTOM", -320 + (i - 1) * 31, 5)
-            stanceButton.ignoreFramePositionManager = true
+        local button = _G["StanceButton" .. i]
+        if button then
+            moveItem(button, "BOTTOM", UIParent, "BOTTOM", -320 + (i - 1) * 31, 5)
         end
     end
 
     -- Erfahrungs Bar
-    MainStatusTrackingBarContainer:ClearAllPoints()
-    MainStatusTrackingBarContainer:SetPoint("BOTTOM", UIParent, "BOTTOM", 4, 142)
-    MainStatusTrackingBarContainer.ignoreFramePositionManager = true
+    moveItem(MainStatusTrackingBarContainer, "BOTTOM", UIParent, "BOTTOM", 4, 142)
 
     -- Ändere die FrameStrata der Chatframes
     for i = 1, NUM_CHAT_WINDOWS do
         local chatFrame = _G["ChatFrame" .. i]
         if chatFrame then
-            chatFrame:SetFrameStrata("DIALOG")  -- Setze die Strata auf DIALOG, damit der Chat immer oben ist
+            chatFrame:SetFrameStrata("DIALOG")
         end
     end
 end
@@ -146,7 +128,7 @@ end
 ------------------------------------------------
 function setupOrbs()
     local orbSize = 230
-
+------------------------------------------------
     ----------------------------------------
     -- Health Fill-Frame
     ----------------------------------------
@@ -171,7 +153,7 @@ function setupOrbs()
         BDOMod_RedOrbBackground:SetAlpha(1)
         BDOMod_RedOrbBackground:SetTexture(images.."blank_orb.png")
     end
-
+------------------------------------------------
     ----------------------------------------
     -- Shield Fill-Frame
     ----------------------------------------
@@ -195,7 +177,7 @@ function setupOrbs()
         BDOMod_RedOrbShield:SetAlpha(1)
         BDOMod_RedOrbShield:SetTexture(images.."blank_orb.png")
     end
-
+------------------------------------------------
     ----------------------------------------
     -- Health Fill-Frame
     ----------------------------------------
@@ -224,7 +206,9 @@ function setupOrbs()
         BDOMod_RedOrb:SetAlpha(1)
         BDOMod_RedOrb:SetTexture(images.."orb_filling1.png")
     end
-
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
     ----------------------------------------
     -- Mana Fill Background-Frame
     ----------------------------------------
@@ -249,7 +233,7 @@ function setupOrbs()
         BDOMod_BlueOrbBackground:SetAlpha(1)
         BDOMod_BlueOrbBackground:SetTexture(images.."blank_orb.png")
     end
-
+------------------------------------------------
     ----------------------------------------
     -- Mana Fill-Frame
     ----------------------------------------
@@ -278,7 +262,7 @@ function setupOrbs()
         BDOMod_BlueOrb:SetAlpha(1)
         BDOMod_BlueOrb:SetTexture(images.."orb_filling1.png")
     end
-
+------------------------------------------------
     ----------------------------------------
     -- Health Texte über eigenem Frame (nur einmal erstellen)
     ----------------------------------------
@@ -331,8 +315,7 @@ function setupOrbs()
     if not BDO_RightArtwork then addArtworkFrame("BDO_RightArtwork", BDOMod_ManaOrb, images.."rightArtwork.png", "MEDIUM", 5, 180, 64, 350, 350, 0, 1, 0, 1, 1) end
     if not BDO_GlossLeft then addArtworkFrame("BDO_GlossLeft", BDOMod_HealthOrb, images.."orb_gloss.png", "MEDIUM", 4, 0, 0, 238, 238, 0, 1, 0, 1, 1) end
     if not BDO_GlossRight then addArtworkFrame("BDO_GlossRight", BDOMod_ManaOrb, images.."orb_gloss.png", "MEDIUM", 4, 0, 0, 238, 238, 1, 0, 0, 1, 1) end
-    
-    
+        
     ----------------------------------------
     -- Orbs beweglich
     ----------------------------------------
