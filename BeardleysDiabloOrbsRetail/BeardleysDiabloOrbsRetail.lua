@@ -309,7 +309,7 @@ function setupOrbs()
     -- Artwork
     ----------------------------------------
     local sfactor = 1.62
-    if not BDO_Bar3 then  addArtworkFrame("BDO_Bar3", BDOMod_Bar, images.."bar3.png", "LOW", 0, 0, -14, (512 * sfactor)-10, 150 * sfactor, 0, 1, 0, 1, 1) end
+    if not BDO_Bar3 then  addArtworkFrame("BDO_Bar3", BDOMod_Bar, images.."bar3.png", "LOW", 0, 0, -14, (512 * sfactor)-10, (150 * sfactor) + 2, 0, 1, 0, 1, 1) end
     if not BDO_LeftArtwork then addArtworkFrame("BDO_LeftArtwork", BDOMod_HealthOrb, images.."leftArtwork.png", "MEDIUM", 5, -190, 64, 350, 350, 0, 1, 0, 1, 1) end
     if not BDO_RightArtwork then addArtworkFrame("BDO_RightArtwork", BDOMod_ManaOrb, images.."rightArtwork.png", "MEDIUM", 5, 180, 64, 350, 350, 0, 1, 0, 1, 1) end
     if not BDO_GlossLeft then addArtworkFrame("BDO_GlossLeft", BDOMod_HealthOrb, images.."orb_gloss.png", "MEDIUM", 4, 0, 0, 238, 238, 0, 1, 0, 1, 1) end
