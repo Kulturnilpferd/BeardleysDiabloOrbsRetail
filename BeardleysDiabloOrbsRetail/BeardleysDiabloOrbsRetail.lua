@@ -73,7 +73,7 @@ local function reconfigUI()
             -- Setze den Parent des Buttons auf den UIParent, damit er unabhängig ist
             button.SlotArt:Hide()
             button.IconMask:Hide()
-            moveItem(button, "BOTTOM", BDOMod_Bar, "BOTTOM", 26 + ((i - 7) * 50), 50)
+            moveItem(button, "BOTTOM", BDOMod_Bar, "BOTTOM", 26 + ((i - 7) * 50), 49)
         end
     end
 
@@ -81,7 +81,7 @@ local function reconfigUI()
     for i = 1, 12 do
         local button = _G["MultiBarBottomLeftButton"..i]
         if button then
-            moveItem(button, "BOTTOM", BDOMod_Bar, "BOTTOM", 26 + (i - 7) * 50, 100)
+            moveItem(button, "BOTTOM", BDOMod_Bar, "BOTTOM", 26 + (i - 7) * 50, 99)
         end
     end
 
