@@ -478,29 +478,65 @@ end
 -- OnLoad & Event Handling
 ------------------------------------------------
 function BDOMod_OnLoad(self)
+    -- Bestehende Events
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
-    self:RegisterEvent("UNIT_AURA")  -- Zum Erkennen von Formwechseln und Aura-Änderungen
+    self:RegisterEvent("UNIT_AURA")
+
+    -- Neue Events für UI-Änderungen, Cutscenes etc.
+    self:RegisterEvent("CINEMATIC_START")
+    self:RegisterEvent("CINEMATIC_STOP")
+    self:RegisterEvent("PLAY_MOVIE")
+    self:RegisterEvent("DISPLAY_SIZE_CHANGED")
+    self:RegisterEvent("UI_SCALE_CHANGED")
+    self:RegisterEvent("UNIT_ENTERED_VEHICLE")
+    self:RegisterEvent("UNIT_EXITED_VEHICLE")
+
+    -- Optional: Combat-Events, falls du UI nicht im Kampf anpassen darfst
+    -- self:RegisterEvent("PLAYER_REGEN_ENABLED")
+
+    -- Update-Loop (z. B. für Animationen)
     self:SetScript("OnUpdate", function(self, elapsed)
         updateHealthOrb()
         updateManaOrb()
     end)
+
+    -- Event-Handler verbinden
+    self:SetScript("OnEvent", BDOMod_OnEvent)
 end
 
 function BDOMod_OnEvent(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         reconfigUI()
-        setupOrbs()  -- Stelle sicher, dass bei Betreten der Welt die UI korrekt eingerichtet wird
-        -- Orb-Farbe beim Login setzen
+        setupOrbs()
         local powerType = UnitPowerType("player")
         SetOrbColor(powerType)
+
     elseif event == "UNIT_AURA" then
         local unit = ...
         if unit == "player" then
-            -- Überprüfe, ob sich der Power-Typ (z.B. durch Formwechsel) geändert hat und setze die Orb-Farbe neu
             updateManaOrb()
-            -- Die Orb-Farbe basierend auf dem aktuellen Power-Typ anpassen
             local powerType = UnitPowerType("player")
             SetOrbColor(powerType)
         end
+
+    elseif event == "CINEMATIC_START" or event == "PLAY_MOVIE" then
+        -- Verstecke UI bei Cutscenes
+        BDOMod_Bar:Hide()
+
+    elseif event == "CINEMATIC_STOP" or event == "UNIT_EXITED_VEHICLE"
+        or event == "DISPLAY_SIZE_CHANGED" or event == "UI_SCALE_CHANGED"
+        or event == "PLAYER_ENTERING_WORLD" then
+        -- Nach Änderungen oder Cutscene-Ende UI neu aufbauen
+        C_Timer.After(0.1, function()
+            reconfigUI()
+            setupOrbs()
+            local powerType = UnitPowerType("player")
+            SetOrbColor(powerType)
+            BDOMod_Bar:Show()
+        end)
+
+    elseif event == "UNIT_ENTERED_VEHICLE" then
+        -- Optional: Orb ausblenden im Fahrzeug
+        BDOMod_Bar:Hide()
     end
 end
