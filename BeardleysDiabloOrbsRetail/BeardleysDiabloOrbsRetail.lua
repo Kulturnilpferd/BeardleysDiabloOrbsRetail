@@ -146,35 +146,33 @@ end
 function setupOrbs()
     local orbSize = 230
 
+
+
+
     ----------------------------------------
     -- Health Fill-Frame
     ----------------------------------------
-    if not BDOMod_HealthFill then
-        BDOMod_HealthFill = CreateFrame("Frame", nil, BDOMod_HealthOrb)
-        BDOMod_HealthFill:SetPoint("BOTTOM")
-        BDOMod_HealthFill:SetSize(orbSize, orbSize)
-        BDOMod_HealthFill:SetClipsChildren(true)
-        BDOMod_HealthFill:SetFrameLevel(2)
+    if not BDOMod_HealthFillBackground then
+        BDOMod_HealthFillBackground = CreateFrame("Frame", nil, BDOMod_HealthOrb)
+        BDOMod_HealthFillBackground:SetPoint("BOTTOM")
+        BDOMod_HealthFillBackground:SetSize(orbSize, orbSize)
+        BDOMod_HealthFillBackground:SetClipsChildren(true)
+        BDOMod_HealthFillBackground:SetFrameLevel(1)
         -- Rotation der Texture BDOMod_RedOrb anwenden
-        BDOMod_HealthFill:SetScript("OnUpdate", function(self, elapsed)
-            local rotation = BDOMod_RedOrb:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
-            BDOMod_RedOrb:SetRotation(rotation)
-        end)
     end
 
     ----------------------------------------
     -- Health Orb parenten und Mask setzen
     ----------------------------------------
-    if BDOMod_RedOrb then
-        BDOMod_RedOrb:ClearAllPoints()
-        BDOMod_RedOrb:SetParent(BDOMod_HealthFill)
-        BDOMod_RedOrb:SetPoint("BOTTOM")
-        BDOMod_RedOrb:SetSize(orbSize, orbSize)
-        BDOMod_RedOrb:SetVertexColor(0, 1, 0)
-        BDOMod_RedOrb:SetAlpha(1)
-        BDOMod_RedOrb:SetTexture(images.."orb_filling1.png")
+    if BDOMod_RedOrbBackground then
+        BDOMod_RedOrbBackground:ClearAllPoints()
+        BDOMod_RedOrbBackground:SetParent(BDOMod_HealthFillBackground)
+        BDOMod_RedOrbBackground:SetPoint("BOTTOM")
+        BDOMod_RedOrbBackground:SetSize(orbSize, orbSize)
+        BDOMod_RedOrbBackground:SetVertexColor(0, 1, 0)
+        BDOMod_RedOrbBackground:SetAlpha(1)
+        BDOMod_RedOrbBackground:SetTexture(images.."blank_orb.png")
     end
-
 
     ----------------------------------------
     -- Shield Fill-Frame
@@ -184,7 +182,7 @@ function setupOrbs()
         BDOMod_ShieldFill:SetPoint("BOTTOM")
         BDOMod_ShieldFill:SetSize(orbSize, orbSize)
         BDOMod_ShieldFill:SetClipsChildren(true)
-        BDOMod_ShieldFill:SetFrameLevel(1)  -- Falls das Frame eine andere Ebene braucht
+        BDOMod_ShieldFill:SetFrameLevel(2)  -- Falls das Frame eine andere Ebene braucht
         -- Rotation der Shield Orb Texture anwenden
         BDOMod_ShieldFill:SetScript("OnUpdate", function(self, elapsed)
             local rotation = BDOMod_RedOrbShield:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
@@ -208,6 +206,70 @@ function setupOrbs()
 
 
     ----------------------------------------
+    -- Health Fill-Frame
+    ----------------------------------------
+    if not BDOMod_HealthFill then
+        BDOMod_HealthFill = CreateFrame("Frame", nil, BDOMod_HealthOrb)
+        BDOMod_HealthFill:SetPoint("BOTTOM")
+        BDOMod_HealthFill:SetSize(orbSize, orbSize)
+        BDOMod_HealthFill:SetClipsChildren(true)
+        BDOMod_HealthFill:SetFrameLevel(3)
+        -- Rotation der Texture BDOMod_RedOrb anwenden
+        BDOMod_HealthFill:SetScript("OnUpdate", function(self, elapsed)
+            local rotation = BDOMod_RedOrb:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
+            BDOMod_RedOrb:SetRotation(rotation)
+        end)
+    end
+
+    ----------------------------------------
+    -- Health Orb parenten und Mask setzen
+    ----------------------------------------
+    if BDOMod_RedOrb then
+        BDOMod_RedOrb:ClearAllPoints()
+        BDOMod_RedOrb:SetParent(BDOMod_HealthFill)
+        BDOMod_RedOrb:SetPoint("BOTTOM")
+        BDOMod_RedOrb:SetSize(orbSize, orbSize)
+        BDOMod_RedOrb:SetVertexColor(0, 1, 0)
+        BDOMod_RedOrb:SetAlpha(1)
+        BDOMod_RedOrb:SetTexture(images.."orb_filling1.png")
+    end
+
+
+    ----------------------------------------
+    -- Mana Fill Background-Frame
+    ----------------------------------------
+    if not BDOMod_ManaFillBackground then
+        BDOMod_ManaFillBackground = CreateFrame("Frame", nil, BDOMod_ManaOrb)
+        BDOMod_ManaFillBackground:SetPoint("BOTTOM")
+        BDOMod_ManaFillBackground:SetSize(orbSize, orbSize)
+        BDOMod_ManaFillBackground:SetClipsChildren(true)
+        BDOMod_ManaFillBackground:SetFrameLevel(1)
+        -- Rotation der Mana Orb Texture anwenden
+    end
+
+    ----------------------------------------
+    -- Mana Orb parenten und Mask setzen
+    ----------------------------------------
+    if BDOMod_BlueOrbBackground then
+        BDOMod_BlueOrbBackground:ClearAllPoints()
+        BDOMod_BlueOrbBackground:SetParent(BDOMod_ManaFillBackground)
+        BDOMod_BlueOrbBackground:SetPoint("BOTTOM")
+        BDOMod_BlueOrbBackground:SetSize(orbSize, orbSize)
+        BDOMod_BlueOrbBackground:SetVertexColor(0, 0, 1)
+        BDOMod_BlueOrbBackground:SetAlpha(1)
+        BDOMod_BlueOrbBackground:SetTexture(images.."blank_orb.png")
+    end
+
+
+
+
+
+
+
+
+
+
+    ----------------------------------------
     -- Mana Fill-Frame
     ----------------------------------------
     if not BDOMod_ManaFill then
@@ -215,7 +277,7 @@ function setupOrbs()
         BDOMod_ManaFill:SetPoint("BOTTOM")
         BDOMod_ManaFill:SetSize(orbSize, orbSize)
         BDOMod_ManaFill:SetClipsChildren(true)
-        BDOMod_ManaFill:SetFrameLevel(1)
+        BDOMod_ManaFill:SetFrameLevel(2)
         -- Rotation der Mana Orb Texture anwenden
         BDOMod_ManaFill:SetScript("OnUpdate", function(self, elapsed)
             local rotation = BDOMod_BlueOrb:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
@@ -284,10 +346,10 @@ function setupOrbs()
     ----------------------------------------
     sfactor = 1.62
     if not BDO_Bar3 then  addArtworkFrame("BDO_Bar3", BDOMod_Bar, images.."bar3.png", "LOW", 0, 0, -14, 512 * sfactor, 150 * sfactor, 0, 1, 0, 1, 1) end
-    if not BDO_LeftArtwork then addArtworkFrame("BDO_LeftArtwork", BDOMod_HealthOrb, images.."leftArtwork.png", "MEDIUM", 3, -190, 64, 350, 350, 0, 1, 0, 1, 1) end
-    if not BDO_RightArtwork then addArtworkFrame("BDO_RightArtwork", BDOMod_ManaOrb, images.."rightArtwork.png", "MEDIUM", 3, 180, 64, 350, 350, 0, 1, 0, 1, 1) end
-    if not BDO_GlossLeft then addArtworkFrame("BDO_GlossLeft", BDOMod_HealthOrb, images.."orb_gloss.png", "MEDIUM", 2, 0, 0, 238, 238, 0, 1, 0, 1, 1) end
-    if not BDO_GlossRight then addArtworkFrame("BDO_GlossRight", BDOMod_ManaOrb, images.."orb_gloss.png", "MEDIUM", 2, 0, 0, 238, 238, 1, 0, 0, 1, 1) end
+    if not BDO_LeftArtwork then addArtworkFrame("BDO_LeftArtwork", BDOMod_HealthOrb, images.."leftArtwork.png", "MEDIUM", 5, -190, 64, 350, 350, 0, 1, 0, 1, 1) end
+    if not BDO_RightArtwork then addArtworkFrame("BDO_RightArtwork", BDOMod_ManaOrb, images.."rightArtwork.png", "MEDIUM", 5, 180, 64, 350, 350, 0, 1, 0, 1, 1) end
+    if not BDO_GlossLeft then addArtworkFrame("BDO_GlossLeft", BDOMod_HealthOrb, images.."orb_gloss.png", "MEDIUM", 4, 0, 0, 238, 238, 0, 1, 0, 1, 1) end
+    if not BDO_GlossRight then addArtworkFrame("BDO_GlossRight", BDOMod_ManaOrb, images.."orb_gloss.png", "MEDIUM", 4, 0, 0, 238, 238, 1, 0, 0, 1, 1) end
     
     
     ----------------------------------------
@@ -306,8 +368,8 @@ end
 ------------------------------------------------
 -- Update Functions
 ------------------------------------------------
-local healthOrbSpeed = 1  -- Geschwindigkeit der Animation (je kleiner, desto langsamer)
-local absorptionOrbSpeed = 1  -- Geschwindigkeit der Absorptions-Animation
+local healthOrbSpeed = 1.5  -- Geschwindigkeit der Animation (je kleiner, desto langsamer)
+local absorptionOrbSpeed = 1.5  -- Geschwindigkeit der Absorptions-Animation
 
 local currentHealth = 0
 local currentAbsorption = 0
@@ -347,6 +409,7 @@ function updateHealthOrb()
 
     -- Update der Orbs
     BDOMod_HealthFill:SetHeight(currentHealth)
+    BDOMod_HealthFillBackground:SetHeight(currentHealth)
     if absorption > 0 then
         BDOMod_ShieldFill:SetHeight(currentAbsorption)
         BDOMod_ShieldFill:Show()
@@ -359,47 +422,45 @@ function updateHealthOrb()
     BDOMod_HealthPercentage:SetText(string.format("%d%%", percentHealth * 100))
 end
 
-local manaOrbSpeed = 1  -- Geschwindigkeit der Animation (je kleiner, desto langsamer)
-local currentMana = UnitPower("player") or 0
-local lastPowerType = -1  -- Eine Variable, um den letzten PowerType zu speichern
+
+local function SetOrbColor(powerType)
+    local powerColors = {
+        [0] = {0.2, 0.4, 1.0},    -- Mana
+        [1] = {1.0, 0.0, 0.0},    -- Wut
+        [3] = {1.0, 1.0, 0.0},    -- Energie
+        [4] = {0.0, 1.0, 0.0},    -- Runen
+        [5] = {0.0, 0.6, 1.0},    -- Fokus
+        [6] = {0.6, 0.0, 1.0},    -- Runenmacht
+        [7] = {0.78, 0.51, 1.0},  -- Seelenmacht
+        [8] = {0.3, 0.52, 0.9},   -- Astrale Macht
+        [9] = {0.71, 1.0, 0.92},  -- Chi
+        [10] = {1.0, 0.25, 0.25}, -- Hölle/Fury
+        [11] = {1.0, 0.9, 0.0},   -- Glück
+    }
+    local r, g, b = unpack(powerColors[powerType] or {0.2, 0.4, 1.0})
+    BDOMod_BlueOrb:SetVertexColor(r, g, b)
+end
+
+local lastPowerType = -1
+local currentMana = 0
+local manaOrbSpeed = 1.5 -- Geschwindigkeit, mit der die Mana-Orb-Anzeige aktualisiert wird
 
 function updateManaOrb()
     local power = UnitPower("player")
     local maxPower = UnitPowerMax("player")
+
+    -- Wenn der maximale Power-Wert 0 ist, nichts tun
     if maxPower == 0 then return end
+    
+    -- Berechne den Prozentwert
     local percent = power / maxPower
 
-    -- Bestimmen des Ressourcentypen
+    -- Bestimmen des Ressourcentyps (Mana, Energie, etc.)
     local powerType = UnitPowerType("player")
 
-    -- Wenn sich der PowerType geändert hat, setze den Füllwert sofort auf den aktuellen Prozentsatz
-    if powerType ~= lastPowerType then
-        currentMana = percent * 230  -- Sofortige Anpassung der Mana-Orb-Höhe
-
-        -- Bestimme die Orb-Farbe sofort, basierend auf dem PowerType
-        local r, g, b = 0.2, 0.4, 1.0  -- Standardfarbe für Mana (Blau)
-
-        if powerType == 1 then
-            -- Wut (Rot)
-            r, g, b = 1.0, 0.0, 0.0
-        elseif powerType == 3 then
-            -- Energie (Gelb)
-            r, g, b = 1.0, 1.0, 0.0
-        elseif powerType == 4 then
-            -- Runen (Grün)
-            r, g, b = 0.0, 1.0, 0.0
-        elseif powerType == 5 then
-            -- Fokus (Blau)
-            r, g, b = 0.0, 0.6, 1.0
-        elseif powerType == 6 then
-            -- Runenmacht (Lila)
-            r, g, b = 0.6, 0.0, 1.0
-        end
-
-        -- Setze sofort die neue Farbe der Mana-Orb
-        BDOMod_BlueOrb:SetVertexColor(r, g, b)
-
-        -- Aktualisiere den letzten PowerType
+    -- Wenn sich der Power-Typ geändert hat, setze den Füllwert sofort auf den aktuellen Prozentsatz
+    if lastPowerType ~= powerType then
+        SetOrbColor(powerType)
         lastPowerType = powerType
     end
 
@@ -418,17 +479,18 @@ function updateManaOrb()
 
     -- Update der Mana-Orb
     BDOMod_ManaFill:SetHeight(currentMana)
+    BDOMod_ManaFillBackground:SetHeight(currentMana)
 
     -- Update Textanzeigen
     BDOMod_ManaText:SetText(string.format("%d / %d", power, maxPower))
     BDOMod_ManaPercentage:SetText(string.format("%d%%", percent * 100))
 end
 
-------------------------------------------------
 -- OnLoad & Event Handling
 ------------------------------------------------
 function BDOMod_OnLoad(self)
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
+    self:RegisterEvent("UNIT_AURA")  -- Zum Erkennen von Formwechseln und Aura-Änderungen
     self:SetScript("OnUpdate", function(self, elapsed)
         updateHealthOrb()
         updateManaOrb()
@@ -438,6 +500,18 @@ end
 function BDOMod_OnEvent(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         reconfigUI()
-        setupOrbs()
+        setupOrbs()  -- Stelle sicher, dass bei Betreten der Welt die UI korrekt eingerichtet wird
+        -- Orb-Farbe beim Login setzen
+        local powerType = UnitPowerType("player")
+        SetOrbColor(powerType)
+    elseif event == "UNIT_AURA" then
+        local unit = ...
+        if unit == "player" then
+            -- Überprüfe, ob sich der Power-Typ (z.B. durch Formwechsel) geändert hat und setze die Orb-Farbe neu
+            updateManaOrb()
+            -- Die Orb-Farbe basierend auf dem aktuellen Power-Typ anpassen
+            local powerType = UnitPowerType("player")
+            SetOrbColor(powerType)
+        end
     end
 end
