@@ -1,6 +1,5 @@
 local addonName, BDO = ...
 local images = "Interface/AddOns/BeardleysDiabloOrbsRetail/art/"
-scaleFactor = 1
 ------------------------------------------------
 -- Artwork Helper
 ------------------------------------------------
@@ -151,7 +150,7 @@ function setupOrbs()
         BDOMod_RedOrbBackground:SetSize(orbSize, orbSize)
         BDOMod_RedOrbBackground:SetVertexColor(0, 1, 0)
         BDOMod_RedOrbBackground:SetAlpha(1)
-        BDOMod_RedOrbBackground:SetTexture(images.."blank_orb.png")
+        BDOMod_RedOrbBackground:SetTexture(images.."orb_fill.png")
     end
 ------------------------------------------------
     ----------------------------------------
@@ -175,7 +174,7 @@ function setupOrbs()
         BDOMod_RedOrbShield:SetSize(orbSize, orbSize)
         BDOMod_RedOrbShield:SetVertexColor(1, 1, 1)
         BDOMod_RedOrbShield:SetAlpha(1)
-        BDOMod_RedOrbShield:SetTexture(images.."blank_orb.png")
+        BDOMod_RedOrbShield:SetTexture(images.."orb_fill.png")
     end
 ------------------------------------------------
     ----------------------------------------
@@ -204,7 +203,7 @@ function setupOrbs()
         BDOMod_RedOrb:SetSize(orbSize, orbSize)
         BDOMod_RedOrb:SetVertexColor(0, 1, 0)
         BDOMod_RedOrb:SetAlpha(1)
-        BDOMod_RedOrb:SetTexture(images.."orb_filling1.png")
+        BDOMod_RedOrb:SetTexture(images.."orb_mist.png")
     end
 ------------------------------------------------
 ------------------------------------------------
@@ -231,7 +230,7 @@ function setupOrbs()
         BDOMod_BlueOrbBackground:SetSize(orbSize, orbSize)
         BDOMod_BlueOrbBackground:SetVertexColor(0, 0, 1)
         BDOMod_BlueOrbBackground:SetAlpha(1)
-        BDOMod_BlueOrbBackground:SetTexture(images.."blank_orb.png")
+        BDOMod_BlueOrbBackground:SetTexture(images.."orb_fill.png")
     end
 ------------------------------------------------
     ----------------------------------------
@@ -260,7 +259,7 @@ function setupOrbs()
         BDOMod_BlueOrb:SetSize(orbSize, orbSize)
         BDOMod_BlueOrb:SetVertexColor(0, 0, 1)
         BDOMod_BlueOrb:SetAlpha(1)
-        BDOMod_BlueOrb:SetTexture(images.."orb_filling1.png")
+        BDOMod_BlueOrb:SetTexture(images.."orb_mist.png")
     end
 ------------------------------------------------
     ----------------------------------------
@@ -309,7 +308,7 @@ function setupOrbs()
     ----------------------------------------
     -- Artwork
     ----------------------------------------
-    sfactor = 1.62
+    local sfactor = 1.62
     if not BDO_Bar3 then  addArtworkFrame("BDO_Bar3", BDOMod_Bar, images.."bar3.png", "LOW", 0, 0, -14, (512 * sfactor)-10, 150 * sfactor, 0, 1, 0, 1, 1) end
     if not BDO_LeftArtwork then addArtworkFrame("BDO_LeftArtwork", BDOMod_HealthOrb, images.."leftArtwork.png", "MEDIUM", 5, -190, 64, 350, 350, 0, 1, 0, 1, 1) end
     if not BDO_RightArtwork then addArtworkFrame("BDO_RightArtwork", BDOMod_ManaOrb, images.."rightArtwork.png", "MEDIUM", 5, 180, 64, 350, 350, 0, 1, 0, 1, 1) end
