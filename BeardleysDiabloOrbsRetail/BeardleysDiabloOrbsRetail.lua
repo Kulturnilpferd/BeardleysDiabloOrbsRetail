@@ -147,9 +147,6 @@ end
 function setupOrbs()
     local orbSize = 230
 
-
-
-
     ----------------------------------------
     -- Health Fill-Frame
     ----------------------------------------
@@ -204,8 +201,6 @@ function setupOrbs()
         BDOMod_RedOrbShield:SetTexture(images.."blank_orb.png")
     end
 
-
-
     ----------------------------------------
     -- Health Fill-Frame
     ----------------------------------------
@@ -217,7 +212,7 @@ function setupOrbs()
         BDOMod_HealthFill:SetFrameLevel(3)
         -- Rotation der Texture BDOMod_RedOrb anwenden
         BDOMod_HealthFill:SetScript("OnUpdate", function(self, elapsed)
-            local rotation = BDOMod_RedOrb:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
+            local rotation = BDOMod_RedOrb:GetRotation() + (elapsed * 0.05)  -- Geschwindigkeit der Rotation anpassen
             BDOMod_RedOrb:SetRotation(rotation)
         end)
     end
@@ -234,7 +229,6 @@ function setupOrbs()
         BDOMod_RedOrb:SetAlpha(1)
         BDOMod_RedOrb:SetTexture(images.."orb_filling1.png")
     end
-
 
     ----------------------------------------
     -- Mana Fill Background-Frame
@@ -261,15 +255,6 @@ function setupOrbs()
         BDOMod_BlueOrbBackground:SetTexture(images.."blank_orb.png")
     end
 
-
-
-
-
-
-
-
-
-
     ----------------------------------------
     -- Mana Fill-Frame
     ----------------------------------------
@@ -281,7 +266,7 @@ function setupOrbs()
         BDOMod_ManaFill:SetFrameLevel(2)
         -- Rotation der Mana Orb Texture anwenden
         BDOMod_ManaFill:SetScript("OnUpdate", function(self, elapsed)
-            local rotation = BDOMod_BlueOrb:GetRotation() + (elapsed * 0.08)  -- Geschwindigkeit der Rotation anpassen
+            local rotation = BDOMod_BlueOrb:GetRotation() + (elapsed * 0.05)  -- Geschwindigkeit der Rotation anpassen
             BDOMod_BlueOrb:SetRotation(rotation)
         end)
     end
