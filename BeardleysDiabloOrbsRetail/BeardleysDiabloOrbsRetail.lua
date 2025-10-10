@@ -114,6 +114,7 @@ local function reconfigUI()
     -- Bagsbar Bags 
     BagsBar:ClearAllPoints()
     BagsBar:SetPoint("BOTTOM", UIParent, "BOTTOM", 268, -2)
+    BagsBar:SetFrameLevel(5)
     BagsBar.ignoreFramePositionManager = true
 
     -- Stance Buttons Anpassung
