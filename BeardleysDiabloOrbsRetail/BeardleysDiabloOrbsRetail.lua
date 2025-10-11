@@ -162,6 +162,10 @@ function setupOrbs()
         BDOMod_ShieldFill:SetSize(orbSize, orbSize)
         BDOMod_ShieldFill:SetClipsChildren(true)
         BDOMod_ShieldFill:SetFrameLevel(2)  -- Falls das Frame eine andere Ebene braucht
+        BDOMod_ShieldFill:SetScript("OnUpdate", function(self, elapsed)
+            local rotation = BDOMod_RedOrbShield:GetRotation() - (elapsed * 0.05)  -- Geschwindigkeit der Rotation anpassen
+            BDOMod_RedOrbShield:SetRotation(rotation)
+        end)
     end
 
     ----------------------------------------
@@ -174,7 +178,7 @@ function setupOrbs()
         BDOMod_RedOrbShield:SetSize(orbSize, orbSize)
         BDOMod_RedOrbShield:SetVertexColor(1, 1, 1)
         BDOMod_RedOrbShield:SetAlpha(1)
-        BDOMod_RedOrbShield:SetTexture(images.."orb_fill.png")
+        BDOMod_RedOrbShield:SetTexture(images.."orb_mist.png")
     end
 ------------------------------------------------
     ----------------------------------------
