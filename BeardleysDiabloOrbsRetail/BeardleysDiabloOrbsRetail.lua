@@ -558,7 +558,7 @@ function BDOMod_OnEvent(self, event, ...)
 
     elseif event == "UNIT_ENTERED_VEHICLE" then
         -- Optional: Orb ausblenden im Fahrzeug
-        BDOMod_Bar:Hide()
+        --BDOMod_Bar:Hide()
 
     elseif event == "UPDATE_OVERRIDE_ACTIONBAR" then
         -- Prüfen, ob die Override-Actionbar aktiv ist
