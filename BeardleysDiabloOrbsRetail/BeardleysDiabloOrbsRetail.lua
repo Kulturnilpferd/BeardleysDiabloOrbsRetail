@@ -515,6 +515,7 @@ function BDOMod_OnLoad(self)
     self:RegisterEvent("UNIT_EXITED_VEHICLE")
     self:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
     self:RegisterEvent("PLAYER_LEVEL_UP")
+    self:RegisterEvent("COMPANION_UPDATE")
     -- Optional: Combat-Events, falls du UI nicht im Kampf anpassen darfst
     -- self:RegisterEvent("PLAYER_REGEN_ENABLED")
 
@@ -574,11 +575,14 @@ function BDOMod_OnEvent(self, event, ...)
             end)
         end
     elseif event == "PLAYER_LEVEL_UP" then
-        local newLevel, hpGain, mpGain = ...
         C_Timer.After(0.1, function()
             reconfigUI()
             setupOrbs()
             SetOrbColor(UnitPowerType("player"))
         end)
+    elseif event == "COMPANION_UPDATE" then
+        reconfigUI()
+        setupOrbs()
+        SetOrbColor(UnitPowerType("player"))
     end
 end
