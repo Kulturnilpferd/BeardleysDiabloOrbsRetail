@@ -33,6 +33,15 @@ local function HideArt(frame)
 	end 
 end
 
+local function formatValue(value)
+    if value >= 1e3 then
+        -- Ganze Zahl, ohne Dezimalstellen, mit "K" hinten
+        return string.format("%d K", math.floor(value / 1e3))
+    else
+        return tostring(value)
+    end
+end
+
 ------------------------------------------------
 -- Frame beweglich machen
 ------------------------------------------------
@@ -55,12 +64,13 @@ local function moveItem(frame, point, relativeTo, relativePoint, offsetX, offset
     frame:SetUserPlaced(true)
     frame:ClearAllPoints()
     frame:SetPoint(point, relativeTo, relativePoint, offsetX, offsetY)
+    frame:SetUserPlaced(false)
     frame.ignoreFramePositionManager = true
 end
 
 local function reconfigUI()
     -- Actionbars und Pet-Actionbuttons Anpassung
- -- MainMenuBar ausblenden
+    -- MainMenuBar ausblenden
 
     HideArt(MainMenuBar)
     moveItem(MainMenuBar, "CENTER", BDOMod_Bar, "BOTTOM", 0, 38)
@@ -125,7 +135,7 @@ end
 ------------------------------------------------
 -- Setup Orbs & Bars
 ------------------------------------------------
-function setupOrbs()
+function setupOrbsUI()
     local orbSize = 230
 ------------------------------------------------
     ----------------------------------------
@@ -337,71 +347,75 @@ end
 ------------------------------------------------
 local healthOrbSpeed = 1.5  -- Geschwindigkeit der Animation (je kleiner, desto langsamer)
 local absorptionOrbSpeed = 1.5  -- Geschwindigkeit der Absorptions-Animation
-
 local currentHealth = 0
 local currentAbsorption = 0
 
 function updateHealthOrb()
-    -- Hole die aktuellen Werte für Gesundheit, maximale Gesundheit und Absorption
+    -- Hole aktuelle Gesundheitswerte
     local health = UnitHealth("player") or 0
-    local maxHealth = UnitHealthMax("player") or 1  -- Um zu verhindern, dass maxHealth 0 wird
-    local absorption = UnitGetTotalAbsorbs("player") or 0  -- Absorption des Spielers abrufen
+    local maxHealth = UnitHealthMax("player") or 1
+    local absorption = UnitGetTotalAbsorbs("player") or 0
 
-    -- Wenn maxHealth 0 ist, breche ab und setze die Höhe auf 0
-    if maxHealth == 0 then 
+    -- Wenn maxHealth 0 ist, setze alles auf 0
+    if maxHealth == 0 then
         BDOMod_HealthFill:SetHeight(0)
         BDOMod_HealthFillBackground:SetHeight(0)
-        BDOMod_ShieldFill:Hide()  -- Verstecke die Absorption
+        BDOMod_ShieldFill:Hide()
         BDOMod_HealthText:SetText("0 / 0")
         BDOMod_HealthPercentage:SetText("0%")
         return
     end
 
-    -- Berechne den Prozentsatz der Gesundheit und der Absorption
+    -- Prozentwerte berechnen
     local percentHealth = health / maxHealth
-    local percentAbsorption = absorption / maxHealth  -- Absorption als Prozentsatz der maximalen Gesundheit berechnen
+    local percentAbsorption = absorption / maxHealth
 
-    -- Zielgröße der Orbs
+    -- Orb-Größe
     local orbSize = 230
-
-    -- Zielwerte für die Animation berechnen
     local targetHealth = orbSize * percentHealth
     local targetAbsorption = orbSize * (percentHealth + percentAbsorption)
 
-    -- Aktualisierung der Gesundheits-Orb
+    -- Dynamische Geschwindigkeit für Gesundheit
+    local healthDiff = math.abs(currentHealth - targetHealth)
+    local healthSpeed = math.min(healthOrbSpeed, healthDiff / 10)
+
     if currentHealth < targetHealth then
-        currentHealth = currentHealth + healthOrbSpeed
+        currentHealth = currentHealth + healthSpeed
         if currentHealth > targetHealth then currentHealth = targetHealth end
     elseif currentHealth > targetHealth then
-        currentHealth = currentHealth - healthOrbSpeed
+        currentHealth = currentHealth - healthSpeed
         if currentHealth < targetHealth then currentHealth = targetHealth end
     end
 
-    -- Aktualisierung der Absorptions-Orb
+    -- Dynamische Geschwindigkeit für Absorption
+    local absorptionDiff = math.abs(currentAbsorption - targetAbsorption)
+    local absorptionSpeed = math.min(absorptionOrbSpeed, absorptionDiff / 10)
+
     if currentAbsorption < targetAbsorption then
-        currentAbsorption = currentAbsorption + absorptionOrbSpeed
+        currentAbsorption = currentAbsorption + absorptionSpeed
         if currentAbsorption > targetAbsorption then currentAbsorption = targetAbsorption end
     elseif currentAbsorption > targetAbsorption then
-        currentAbsorption = currentAbsorption - absorptionOrbSpeed
+        currentAbsorption = currentAbsorption - absorptionSpeed
         if currentAbsorption < targetAbsorption then currentAbsorption = targetAbsorption end
     end
 
-    -- Update der Health-Orb
-    BDOMod_HealthFill:SetHeight(currentHealth)
-    BDOMod_HealthFillBackground:SetHeight(currentHealth)
+    -- Health-Füllung nur aktualisieren, wenn sich etwas verändert hat
+    if currentHealth ~= targetHealth then
+        BDOMod_HealthFill:SetHeight(currentHealth)
+        BDOMod_HealthFillBackground:SetHeight(currentHealth)
+        BDOMod_HealthText:SetText(string.format("%s / %s", formatValue(health), formatValue(maxHealth)))
+        BDOMod_HealthPercentage:SetText(string.format("%d%%", percentHealth * 100))
+    end
 
-    -- Update der Absorption-Orb
+    -- Absorption-Füllung aktualisieren oder verstecken
     if absorption > 0 then
         BDOMod_ShieldFill:SetHeight(currentAbsorption)
         BDOMod_ShieldFill:Show()
     else
-        BDOMod_ShieldFill:Hide()  -- Verstecke das Absorptions-Orb, wenn keine Absorption vorhanden ist
+        BDOMod_ShieldFill:Hide()
     end
-
-    -- Update der Textanzeigen
-    BDOMod_HealthText:SetText(string.format("%d / %d", health, maxHealth))
-    BDOMod_HealthPercentage:SetText(string.format("%d%%", percentHealth * 100))
 end
+
 
 local function SetOrbColor(powerType)
     local powerColors = {
@@ -472,11 +486,10 @@ function updateManaOrb()
     if currentMana ~= targetMana then
         BDOMod_ManaFill:SetHeight(currentMana)
         BDOMod_ManaFillBackground:SetHeight(currentMana)
+        -- Update der Textanzeigen
+        BDOMod_ManaText:SetText(string.format("%s / %s", formatValue(power), formatValue(maxPower)))
+        BDOMod_ManaPercentage:SetText(string.format("%d%%", percent * 100))
     end
-
-    -- Update der Textanzeigen
-    BDOMod_ManaText:SetText(string.format("%d / %d", power, maxPower))
-    BDOMod_ManaPercentage:SetText(string.format("%d%%", percent * 100))
 end
 
 -- EditMode wurde geöffnet
@@ -492,7 +505,7 @@ EventRegistry:RegisterCallback("EditMode.Exit", function()
         if BDOMod_Bar then
             BDOMod_Bar:SetAlpha(1)
             reconfigUI()
-            setupOrbs()
+            setupOrbsUI()
             SetOrbColor(UnitPowerType("player"))
         end
     end)
@@ -516,6 +529,7 @@ function BDOMod_OnLoad(self)
     self:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
     self:RegisterEvent("PLAYER_LEVEL_UP")
     self:RegisterEvent("COMPANION_UPDATE")
+    self:RegisterEvent("PLAYER_TALENT_UPDATE")
     -- Optional: Combat-Events, falls du UI nicht im Kampf anpassen darfst
     -- self:RegisterEvent("PLAYER_REGEN_ENABLED")
 
@@ -532,13 +546,13 @@ end
 function BDOMod_OnEvent(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         reconfigUI()
-        setupOrbs()
+        setupOrbsUI()
         SetOrbColor(UnitPowerType("player"))
 
     elseif event == "UNIT_AURA" then
         local unit = ...
         if unit == "player" then
-            updateManaOrb()
+            --updateManaOrb()
             SetOrbColor(UnitPowerType("player"))
         end
 
@@ -552,16 +566,12 @@ function BDOMod_OnEvent(self, event, ...)
         -- Nach Änderungen oder Cutscene-Ende UI neu aufbauen
         C_Timer.After(0.1, function()
             reconfigUI()
-            setupOrbs()
+            setupOrbsUI()
             SetOrbColor(UnitPowerType("player"))
             BDOMod_Bar:Show()
         end)
 
-    elseif event == "UNIT_ENTERED_VEHICLE" then
-        -- Optional: Orb ausblenden im Fahrzeug
-        --BDOMod_Bar:Hide()
-
-    elseif event == "UPDATE_OVERRIDE_ACTIONBAR" then
+    elseif event == "UNIT_ENTERED_VEHICLE" or event == "UPDATE_OVERRIDE_ACTIONBAR" then
         -- Prüfen, ob die Override-Actionbar aktiv ist
         local isOverride = HasOverrideActionBar()
         if isOverride then
@@ -574,15 +584,12 @@ function BDOMod_OnEvent(self, event, ...)
                 end
             end)
         end
-    elseif event == "PLAYER_LEVEL_UP" then
+
+    elseif event == "PLAYER_LEVEL_UP"  or event == "PLAYER_TALENT_UPDATE"  or event == "COMPANION_UPDATE" then
         C_Timer.After(0.1, function()
             reconfigUI()
-            setupOrbs()
+            setupOrbsUI()
             SetOrbColor(UnitPowerType("player"))
         end)
-    elseif event == "COMPANION_UPDATE" then
-        reconfigUI()
-        setupOrbs()
-        SetOrbColor(UnitPowerType("player"))
     end
 end
