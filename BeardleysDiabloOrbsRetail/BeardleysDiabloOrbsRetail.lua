@@ -295,8 +295,8 @@ function setupOrbsUI()
         BDOMod_HealthText:SetPoint("CENTER", BDOMod_HealthOrb, "CENTER", 0, 0)
 
         local fontName, _, fontFlags = BDOMod_HealthPercentage:GetFont()
-        BDOMod_HealthPercentage:SetFont(fontName, 18, fontFlags)  -- 16 ist die neue Schriftgröße
-        BDOMod_HealthText:SetFont(fontName, 18, fontFlags)  -- 16 ist die neue Schriftgröße
+        BDOMod_HealthPercentage:SetFont(fontName, 18, fontFlags) 
+        BDOMod_HealthText:SetFont(fontName, 18, fontFlags)
     end
 
     ----------------------------------------
@@ -314,8 +314,8 @@ function setupOrbsUI()
         BDOMod_ManaText:SetPoint("CENTER", BDOMod_ManaOrb, "CENTER", 0, 0)
 
         local fontName, _, fontFlags = BDOMod_ManaPercentage:GetFont()
-        BDOMod_ManaPercentage:SetFont(fontName, 18, fontFlags)  -- 16 ist die neue Schriftgröße
-        BDOMod_ManaText:SetFont(fontName, 18, fontFlags)  -- 16 ist die neue Schriftgröße
+        BDOMod_ManaPercentage:SetFont(fontName, 18, fontFlags)
+        BDOMod_ManaText:SetFont(fontName, 18, fontFlags)
 
     end
 
@@ -323,7 +323,7 @@ function setupOrbsUI()
     -- Artwork
     ----------------------------------------
     local sfactor = 1.62
-    if not BDO_Bar3 then  addArtworkFrame("BDO_Bar3", BDOMod_Bar, images.."bar3.png", "LOW", 0, 0, -14, (512 * sfactor)-10, (150 * sfactor) + 2, 0, 1, 0, 1, 1) end
+    if not BDO_Bar3 then addArtworkFrame("BDO_Bar3", BDOMod_Bar, images.."bar3.png", "LOW", 0, 0, -14, (512 * sfactor)-10, (150 * sfactor) + 2, 0, 1, 0, 1, 1) end
     if not BDO_LeftArtwork then addArtworkFrame("BDO_LeftArtwork", BDOMod_HealthOrb, images.."leftArtwork.png", "MEDIUM", 5, -190, 64, 350, 350, 0, 1, 0, 1, 1) end
     if not BDO_RightArtwork then addArtworkFrame("BDO_RightArtwork", BDOMod_ManaOrb, images.."rightArtwork.png", "MEDIUM", 5, 180, 64, 350, 350, 0, 1, 0, 1, 1) end
     if not BDO_GlossLeft then addArtworkFrame("BDO_GlossLeft", BDOMod_HealthOrb, images.."orb_gloss.png", "MEDIUM", 4, 0, 0, 238, 238, 0, 1, 0, 1, 1) end
@@ -530,6 +530,8 @@ function BDOMod_OnLoad(self)
     self:RegisterEvent("PLAYER_LEVEL_UP")
     self:RegisterEvent("COMPANION_UPDATE")
     self:RegisterEvent("PLAYER_TALENT_UPDATE")
+    self:RegisterEvent("PET_BATTLE_OPENING_START")
+    self:RegisterEvent("PET_BATTLE_CLOSE")
     -- Optional: Combat-Events, falls du UI nicht im Kampf anpassen darfst
     -- self:RegisterEvent("PLAYER_REGEN_ENABLED")
 
@@ -552,38 +554,44 @@ function BDOMod_OnEvent(self, event, ...)
     elseif event == "UNIT_AURA" then
         local unit = ...
         if unit == "player" then
-            --updateManaOrb()
+            updateManaOrb()
             SetOrbColor(UnitPowerType("player"))
+            print("Aura")
         end
 
-    elseif event == "CINEMATIC_START" or event == "PLAY_MOVIE" then
+    elseif event == "CINEMATIC_START" or event == "PLAY_MOVIE"  or event == "PET_BATTLE_OPENING_START" then
         -- Verstecke UI bei Cutscenes
+        BagsBar:Hide()
         BDOMod_Bar:Hide()
 
     elseif event == "CINEMATIC_STOP" or event == "UNIT_EXITED_VEHICLE"
         or event == "DISPLAY_SIZE_CHANGED" or event == "UI_SCALE_CHANGED"
-        or event == "PLAYER_ENTERING_WORLD" then
+        or event == "PLAYER_ENTERING_WORLD" or event=="PET_BATTLE_CLOSE" then
         -- Nach Änderungen oder Cutscene-Ende UI neu aufbauen
         C_Timer.After(0.1, function()
             reconfigUI()
             setupOrbsUI()
             SetOrbColor(UnitPowerType("player"))
+            BagsBar:Show()
             BDOMod_Bar:Show()
         end)
 
     elseif event == "UNIT_ENTERED_VEHICLE" or event == "UPDATE_OVERRIDE_ACTIONBAR" then
         -- Prüfen, ob die Override-Actionbar aktiv ist
+        C_Timer.After(0.1, function()
         local isOverride = HasOverrideActionBar()
-        if isOverride then
-            if BDOMod_Bar then BDOMod_Bar:Hide() end
-        else
-            C_Timer.After(0.1, function()
-                if BDOMod_Bar then
-                    reconfigUI()
-                    BDOMod_Bar:Show() 
-                end
-            end)
-        end
+            if isOverride then
+                if BDOMod_Bar then BDOMod_Bar:Hide() end
+            else
+                C_Timer.After(0.1, function()
+                    if BDOMod_Bar then
+                        reconfigUI()
+                        BagsBar:Show()
+                        BDOMod_Bar:Show() 
+                    end
+                end)
+            end
+        end)
 
     elseif event == "PLAYER_LEVEL_UP"  or event == "PLAYER_TALENT_UPDATE"  or event == "COMPANION_UPDATE" then
         C_Timer.After(0.1, function()
