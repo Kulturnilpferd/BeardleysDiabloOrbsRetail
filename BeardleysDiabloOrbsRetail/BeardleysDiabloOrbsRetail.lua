@@ -104,7 +104,7 @@ local function reconfigUI()
 
     -- Pet Action Bar
     moveItem(PetActionBar, "BOTTOM", BDOMod_Bar, "BOTTOM", -143, 210)
-
+    
     -- Micromenu
     moveItem(MicroMenuContainer, "BOTTOM", BDOMod_Bar, "BOTTOM",-50, 2)
 
@@ -554,9 +554,8 @@ function BDOMod_OnEvent(self, event, ...)
     elseif event == "UNIT_AURA" then
         local unit = ...
         if unit == "player" then
-            updateManaOrb()
+            --updateManaOrb()
             SetOrbColor(UnitPowerType("player"))
-            print("Aura")
         end
 
     elseif event == "CINEMATIC_START" or event == "PLAY_MOVIE"  or event == "PET_BATTLE_OPENING_START" then
@@ -579,8 +578,7 @@ function BDOMod_OnEvent(self, event, ...)
     elseif event == "UNIT_ENTERED_VEHICLE" or event == "UPDATE_OVERRIDE_ACTIONBAR" then
         -- Prüfen, ob die Override-Actionbar aktiv ist
         C_Timer.After(0.1, function()
-        local isOverride = HasOverrideActionBar()
-            if isOverride then
+            if HasOverrideActionBar() or HasVehicleActionBar() then
                 if BDOMod_Bar then BDOMod_Bar:Hide() end
             else
                 C_Timer.After(0.1, function()
