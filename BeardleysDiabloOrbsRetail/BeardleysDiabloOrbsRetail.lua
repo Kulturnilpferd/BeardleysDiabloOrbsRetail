@@ -124,12 +124,12 @@ local function reconfigUI()
     moveItem(MainStatusTrackingBarContainer, "BOTTOM", BDOMod_Bar, "BOTTOM", 4, 143)
 
     -- Ändere die FrameStrata der Chatframes
-    for i = 1, NUM_CHAT_WINDOWS do
-        local chatFrame = _G["ChatFrame" .. i]
-        if chatFrame then
-            chatFrame:SetFrameStrata("DIALOG")
-        end
-    end
+    --for i = 1, NUM_CHAT_WINDOWS do
+    --    local chatFrame = _G["ChatFrame" .. i]
+    --    if chatFrame then
+    --        chatFrame:SetFrameStrata("DIALOG")
+    --    end
+    --end
 end
 
 ------------------------------------------------
@@ -565,7 +565,7 @@ function BDOMod_OnEvent(self, event, ...)
 
     elseif event == "CINEMATIC_STOP" or event == "UNIT_EXITED_VEHICLE"
         or event == "DISPLAY_SIZE_CHANGED" or event == "UI_SCALE_CHANGED"
-        or event == "PLAYER_ENTERING_WORLD" or event=="PET_BATTLE_CLOSE" then
+        or event=="PET_BATTLE_CLOSE" then
         -- Nach Änderungen oder Cutscene-Ende UI neu aufbauen
         C_Timer.After(0.1, function()
             reconfigUI()
